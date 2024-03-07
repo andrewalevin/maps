@@ -2,3 +2,8 @@
 
 # maps
 🗺️ Maps
+
+
+### Moscow
+
+- [moscow/](moscow/)
