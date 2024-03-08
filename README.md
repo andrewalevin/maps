@@ -7,3 +7,4 @@
 ### Moscow
 
 - [moscow/](moscow/)
+- [moscow2/](moscow2/)
