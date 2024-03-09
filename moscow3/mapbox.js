@@ -37,7 +37,14 @@ function getRadius(zoom) {
 
 function mapProcess(data) {
   const radius = getRadius(map.getZoom());
-  for (const item of data) {
+  for (const rawitem of data) {
+    const item = {
+      'coordinates': rawitem[0],
+      'title': rawitem[1],
+      'description': rawitem[2],
+      'thumbnail': rawitem[3],
+    }
+
     const elem = document.createElement('div');
     elem.className = 'marker';
     elem.style.width = `${radius}px`;
