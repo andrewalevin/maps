@@ -23,6 +23,7 @@ fetch(url)
   .then((data) => {
     mapProcess(data);
   });
+
   
 
 function mapProcess(data) {
@@ -30,8 +31,12 @@ function mapProcess(data) {
     const el = document.createElement('div');
     el.className = 'marker';
   
+    const cords = feature.geometry.coordinates;
+    console.log('🔮 Coordinates: ', cords);
+    console.log('🔮 Rev: ', cords.reverse());
+
     new mapboxgl.Marker(el)
-      .setLngLat(feature.geometry.coordinates)
+      .setLngLat(cords)
       .setPopup(
         new mapboxgl.Popup({
             offset: 25
@@ -49,13 +54,32 @@ function mapProcess(data) {
 
 map.on('zoom', () => {
   const zoom = map.getZoom();
-  const scale = (Math.trunc(zoom, 2) - 5) * 10;
-  console.log('zoom: ', scale, zoom);
+
+  const zoom_el = document.getElementById('zoom');
+  zoom_el.innerHTML = `Zoom: ${zoom}`;
+
+  const zoom_trunc = zoom.toFixed(2);
+
+
+  const zoom_trunc_el = document.getElementById('zoom-trunc');
+  zoom_trunc_el.innerHTML = `Trunc: ${zoom_trunc}`;
+
+  const radius = ((zoom_trunc - 5) * 10).toFixed(0);
+
+
+  const radius_el = document.getElementById('radius');
+  radius_el.innerHTML = `Radius: ${radius}`;
 
   for (const elem of document.getElementsByClassName("marker")) {
-    elem.style.width = `${scale}px`;
-    elem.style.height = `${scale}px`;
+    elem.style.width = `${radius}px`;
+    elem.style.height = `${radius}px`;
   }
 
 });
+
+
+
+
+
+
 
