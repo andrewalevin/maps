@@ -1,7 +1,4 @@
 
-
-
-
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
 const map = new mapboxgl.Map({
@@ -27,10 +24,10 @@ fetch(url)
 
 function mapProcess(data) {
   for (const feature of data) {
-    const el = document.createElement('div');
-    el.className = 'marker';
+    const element = document.createElement('div');
+    element.className = 'marker';
   
-    new mapboxgl.Marker(el)
+    new mapboxgl.Marker(element)
       .setLngLat(feature.geometry.coordinates)
       .setPopup(
         new mapboxgl.Popup({
@@ -44,4 +41,6 @@ function mapProcess(data) {
       .addTo(map);
   }
 }
+
+
 
