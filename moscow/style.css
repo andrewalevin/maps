@@ -5,7 +5,7 @@ body {
 
 #map {
     position: absolute;
-    top: .75rem;
+    top: 1rem;
     bottom: 0;
     width: 100%;
 }
