@@ -16,7 +16,7 @@
         
         #map {
             position: absolute;
-            top: 0;
+            top: 10rem;
             bottom: 0;
             width: 100%;
         }
@@ -44,8 +44,53 @@
 
 <body>
 
+    <h1>Page</h1>
     <div id="map"></div>
-    <script src="mapbox.js"></script>
+
+    <script src="js-yaml.min.js"></script>
+    <script>
+        let url = 'data.yaml';
+
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            center: [37.61, 55.75],
+            zoom: 11,
+            style: 'mapbox://styles/andrewlevin/clthwxvvg002h01qo40y1e99g',
+        });
+
+
+        fetch(url)
+            .then((response) => {
+                return response.text();
+            })
+            .then((text) => {
+
+                let doc2 = jsyaml.load(text);
+                //console.log(doc);
+
+
+                for (const feature of doc2) {
+                    const el = document.createElement('div');
+                    el.className = 'marker';
+
+                    new mapboxgl.Marker(el)
+                        .setLngLat(feature.geometry.coordinates)
+                        .setPopup(
+                            new mapboxgl.Popup({
+                                offset: 25
+                            })
+                            .setHTML(
+                                `<h3>${feature.properties.title}</h3>
+                                <p>${feature.properties.description}</p>`
+                            )
+                        )
+                        .addTo(map);
+                }
+            })
+    </script>
 
 </body>
 
