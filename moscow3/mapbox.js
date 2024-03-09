@@ -32,11 +32,14 @@ function mapProcess(data) {
     el.className = 'marker';
   
     const cords = feature.geometry.coordinates;
+    const ncords = [cords[1], cords[0]];
+
     console.log('🔮 Coordinates: ', cords);
-    console.log('🔮 Rev: ', cords.reverse());
+    console.log('🔮 Rev: ', ncords);
+
 
     new mapboxgl.Marker(el)
-      .setLngLat(cords)
+      .setLngLat(feature.geometry.coordinates)
       .setPopup(
         new mapboxgl.Popup({
             offset: 25

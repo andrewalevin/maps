@@ -2,8 +2,8 @@
   geometry:
     type: Point
     coordinates:
-      - 55.728
       - 37.555
+      - 55.728
   properties:
     title: Дорогу утятам!
     description: Дорогу утятам! D
@@ -11,8 +11,8 @@
   geometry:
     type: Point
     coordinates:
-      - 55.742
       - 37.612
+      - 55.742
   properties:
     title: ГЭС-2
     description: ГЭС-2 - D
@@ -20,8 +20,8 @@
   geometry:
     type: Point
     coordinates:
-      - 55.76308
       - 37.607053
+      - 55.76308
   properties:
     title: Фаланстер
     description: Фаланстер - D
