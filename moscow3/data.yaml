@@ -1,15 +1,9 @@
-- type: Feature
-  coordinates: 55.728324, 37.555595
-  properties:
-    title: Дорогу утятам!
-    description: Дорогу утятам! D
-- type: Feature
-  coordinates: 55.742752, 37.612733
-  properties:
-    title: ГЭС-2
-    description: ГЭС-2 - D
-- type: Feature
-  coordinates: 55.763080, 37.607053
-  properties:
-    title: Фаланстер
-    description: Фаланстер - D
+- coordinates: 55.728324, 37.555595
+  title: Дорогу утятам!
+  description: Дорогу утятам! D
+- coordinates: 55.742752, 37.612733
+  title: ГЭС-2
+  description: ГЭС-2 - D
+- coordinates: 55.763080, 37.607053
+  title: Фаланстер
+  description: Фаланстер - D
