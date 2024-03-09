@@ -27,18 +27,27 @@ fetch(url)
   
 const imgs_url = 'https://andrewalevin.github.io/maps/moscow3/imgs/';
 
-function mapProcess(data) {
-  for (const item of data) {
-    const el = document.createElement('div');
-    el.className = 'marker';
+function getRadius(zoom) {
+  let radius = 8 * (zoom - 8);
+  if (radius < 10)
+      radius = 10;
+  return radius.toFixed(0)
+}
 
-    if (item.thumbnail){
-      const thumbnail_url = `${imgs_url}${item.thumbnail}`;
-      el.setAttribute('style', `background-image: url(\'${thumbnail_url}\'); background-size: cover;`);
-    }
+
+function mapProcess(data) {
+  const radius = getRadius(map.getZoom());
+  for (const item of data) {
+    const elem = document.createElement('div');
+    elem.className = 'marker';
+    elem.style.width = `${radius}px`;
+    elem.style.height = `${radius}px`;
+
+    if (item.thumbnail)
+      elem.setAttribute('style', `background-image: url(\'${imgs_url}${item.thumbnail}\'); background-size: cover;`);
   
     const coordinates = item.coordinates.split(', ').reverse();
-    new mapboxgl.Marker(el)
+    new mapboxgl.Marker(elem)
       .setLngLat(coordinates)
       .setPopup(
         new mapboxgl.Popup({
@@ -54,26 +63,13 @@ function mapProcess(data) {
 }
 
 
-
-
 map.on('zoom', () => {
-  const zoom = map.getZoom();
-
-  const zoom_el = document.getElementById('zoom');
-  zoom_el.innerHTML = `Zoom: ${zoom}`;
-
-  const radius = getDiscribution(zoom).toFixed(0);
-  console.log('Rad: ', radius );
-
-  //let radius = (zoom_trunc* 10).toFixed(0);
-  const radius_el = document.getElementById('radius');
-  radius_el.innerHTML = `Radius: ${radius}`;
+  const radius = getRadius(map.getZoom());
 
   for (const elem of document.getElementsByClassName("marker")) {
     elem.style.width = `${radius}px`;
     elem.style.height = `${radius}px`;
   }
-
 });
 
 
