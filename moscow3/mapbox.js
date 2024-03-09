@@ -12,7 +12,7 @@ const map = new mapboxgl.Map({
 });
 
 
-const url = 'data.yaml';
+const url = 'https://andrewalevin.github.io/maps/moscow3/data.yaml';
 fetch(url)
   .then((response) => {
     return response.text();
@@ -44,4 +44,18 @@ function mapProcess(data) {
       .addTo(map);
   }
 }
+
+
+
+map.on('zoom', () => {
+  const zoom = map.getZoom();
+  const scale = (Math.trunc(zoom, 2) - 5) * 10;
+  console.log('zoom: ', scale, zoom);
+
+  for (const elem of document.getElementsByClassName("marker")) {
+    elem.style.width = `${scale}px`;
+    elem.style.height = `${scale}px`;
+  }
+
+});
 
