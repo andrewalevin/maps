@@ -1,9 +1,12 @@
 - coordinates: 55.728324, 37.555595
   title: Дорогу утятам!
   description: Дорогу утятам! D
+  thumbnail: utki.png
 - coordinates: 55.742752, 37.612733
   title: ГЭС-2
   description: ГЭС-2 - D
+  thumbnail: ges2.png
 - coordinates: 55.763080, 37.607053
   title: Фаланстер
   description: Фаланстер - D
+  thumbnail: falanster.png

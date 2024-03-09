@@ -27,14 +27,11 @@ fetch(url)
   
 
 function mapProcess(data) {
-  for (const feature of data) {
+  for (const item of data) {
     const el = document.createElement('div');
     el.className = 'marker';
 
-    const coordinates = feature.coordinates.split(', ').reverse();
-
-    console.log('coordinates: ', coordinates);
-
+    const coordinates = item.coordinates.split(', ').reverse();
     new mapboxgl.Marker(el)
       .setLngLat(coordinates)
       .setPopup(
@@ -42,8 +39,8 @@ function mapProcess(data) {
             offset: 25
         })
         .setHTML(
-          `<h3>${feature.properties.title}</h3>
-          <p>${feature.properties.description}</p>`
+          `<h3>${item.title}</h3>
+          <p>${item.description}</p>`
         )
       )
       .addTo(map);
@@ -64,16 +61,14 @@ map.on('zoom', () => {
   const zoom_trunc_el = document.getElementById('zoom-trunc');
   zoom_trunc_el.innerHTML = `Trunc: ${zoom_trunc}`;
 
-  let radius = ((zoom_trunc - 5) * 10).toFixed(0);
-
-  radius = 100;
+  let radius = (zoom_trunc* 10).toFixed(0);
 
   const radius_el = document.getElementById('radius');
   radius_el.innerHTML = `Radius: ${radius}`;
 
   for (const elem of document.getElementsByClassName("marker")) {
-    elem.style.width = `${100} px`;
-    elem.style.height = `${100} px`;
+    elem.style.width = `${radius}px`;
+    elem.style.height = `${radius}px`;
   }
 
 });
