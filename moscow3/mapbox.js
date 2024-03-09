@@ -30,16 +30,13 @@ function mapProcess(data) {
   for (const feature of data) {
     const el = document.createElement('div');
     el.className = 'marker';
-  
-    const cords = feature.geometry.coordinates;
-    const ncords = [cords[1], cords[0]];
 
-    console.log('🔮 Coordinates: ', cords);
-    console.log('🔮 Rev: ', ncords);
+    const coordinates = feature.coordinates.split(', ').reverse();
 
+    console.log('coordinates: ', coordinates);
 
     new mapboxgl.Marker(el)
-      .setLngLat(feature.geometry.coordinates)
+      .setLngLat(coordinates)
       .setPopup(
         new mapboxgl.Popup({
             offset: 25
@@ -67,15 +64,16 @@ map.on('zoom', () => {
   const zoom_trunc_el = document.getElementById('zoom-trunc');
   zoom_trunc_el.innerHTML = `Trunc: ${zoom_trunc}`;
 
-  const radius = ((zoom_trunc - 5) * 10).toFixed(0);
+  let radius = ((zoom_trunc - 5) * 10).toFixed(0);
 
+  radius = 100;
 
   const radius_el = document.getElementById('radius');
   radius_el.innerHTML = `Radius: ${radius}`;
 
   for (const elem of document.getElementsByClassName("marker")) {
-    elem.style.width = `${radius}px`;
-    elem.style.height = `${radius}px`;
+    elem.style.width = `${100} px`;
+    elem.style.height = `${100} px`;
   }
 
 });
