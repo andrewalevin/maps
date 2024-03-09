@@ -25,12 +25,18 @@ fetch(url)
   });
 
   
+const imgs_url = 'https://andrewalevin.github.io/maps/moscow3/imgs/';
 
 function mapProcess(data) {
   for (const item of data) {
     const el = document.createElement('div');
     el.className = 'marker';
 
+    if (item.thumbnail){
+      const thumbnail_url = `${imgs_url}${item.thumbnail}`;
+      el.setAttribute('style', `background-image: url(\'${thumbnail_url}\'); background-size: cover;`);
+    }
+  
     const coordinates = item.coordinates.split(', ').reverse();
     new mapboxgl.Marker(el)
       .setLngLat(coordinates)
@@ -49,20 +55,17 @@ function mapProcess(data) {
 
 
 
+
 map.on('zoom', () => {
   const zoom = map.getZoom();
 
   const zoom_el = document.getElementById('zoom');
   zoom_el.innerHTML = `Zoom: ${zoom}`;
 
-  const zoom_trunc = zoom.toFixed(2);
+  const radius = getDiscribution(zoom).toFixed(0);
+  console.log('Rad: ', radius );
 
-
-  const zoom_trunc_el = document.getElementById('zoom-trunc');
-  zoom_trunc_el.innerHTML = `Trunc: ${zoom_trunc}`;
-
-  let radius = (zoom_trunc* 10).toFixed(0);
-
+  //let radius = (zoom_trunc* 10).toFixed(0);
   const radius_el = document.getElementById('radius');
   radius_el.innerHTML = `Radius: ${radius}`;
 

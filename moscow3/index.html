@@ -12,11 +12,18 @@
 
 <body>
     <div id="zoom">ZO</div>
-    <div id="zoom-trunc">TR</div>
     <div id="radius">RD</div>
 
     <div id="map"></div>
     <script src="js-yaml.min.js"></script>
+    <script>
+        function getDiscribution(zoom) {
+            let radius = 9 * (zoom - 8);
+            if (radius < 10)
+                radius = 10;
+            return radius
+        }
+    </script>
     <script src="mapbox.js"></script>
 </body>
 
