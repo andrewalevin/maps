@@ -1,5 +1,7 @@
 
 
+const URL_ROOT =  'https://andrewalevin.github.io/maps/moscow/';
+//const URL_ROOT =  '';
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
@@ -12,8 +14,7 @@ const map = new mapboxgl.Map({
 });
 
 
-const url = 'https://andrewalevin.github.io/maps/moscow/data.yaml';
-fetch(url)
+fetch(`${URL_ROOT}data.yaml`)
   .then((response) => {
     return response.text();
   })
@@ -23,9 +24,6 @@ fetch(url)
   .then((data) => {
     mapProcess(data);
   });
-
-  
-const imgs_url = 'https://andrewalevin.github.io/maps/moscow/imgs/';
 
 
 function getRadius(zoom) {
@@ -54,7 +52,7 @@ function mapProcess(data) {
 
     if (item.thumbnail){
       const parts = item.thumbnail.split('.')
-      const filename = `${imgs_url}${parts[0]}-100.${parts[1]}`;
+      const filename = `${URL_ROOT}imgs/${parts[0]}-100.${parts[1]}`;
       elem.style.backgroundImage = `url(\'${filename }\')`;
     }
     const coordinates = item.coordinates.split(', ').reverse();
