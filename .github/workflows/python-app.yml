@@ -27,7 +27,7 @@ jobs:
         pip install pillow
     - name: 🥒 Make
       run: |
-        python resizeimages.py moscow3/imgs
+        python3 resizeimages.py moscow3/imgs
     - name: 🍒 Git Auto Commit
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
