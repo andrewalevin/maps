@@ -2,6 +2,50 @@ import sys
 import pathlib
 from PIL import Image
 
+'''
+GITHUB WORKFLOW
+
+INSTALL
+
+TOUCH FILE
+ .github/workflows/resizeimages-workflow.yml
+
+WITH CONTENT BELOW
+WHERE ARGS
+python3 resizeimages.py resizeimageslist.txt
+
+
+=================
+ name: 🥒 Resize Images - Python application
+on:
+  push:
+    branches: [ "main" ]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: 🥑 Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: 🥦 Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install pillow
+    - name: 🥒 Make Resize
+      run: |
+        python3 resizeimages.py resizeimageslist.txt
+    - name: 🍒 Git Auto Commit
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Apply automatic changes
+
+'''
+
+
 
 def resize(path, size=100, allowed_extensions=None):
     if allowed_extensions is None:
