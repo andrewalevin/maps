@@ -51,11 +51,12 @@ function mapProcess(data) {
     elem.style.width = `${radius}px`;
     elem.style.height = `${radius}px`;
 
-    console.log(item.thumbnail);
-    
-    if (item.thumbnail)
-      elem.style.backgroundImage = `url(\'${imgs_url}${item.thumbnail}\')`;
-  
+
+    if (item.thumbnail){
+      const parts = item.thumbnail.split('.')
+      const filename = `${imgs_url}${parts[0]}-100.${parts[1]}`;
+      elem.style.backgroundImage = `url(\'${filename }\')`;
+    }
     const coordinates = item.coordinates.split(', ').reverse();
     new mapboxgl.Marker(elem)
       .setLngLat(coordinates)
