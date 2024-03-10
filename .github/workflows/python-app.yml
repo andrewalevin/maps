@@ -24,14 +24,14 @@ jobs:
     - name: 🥦 Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        if [ -f resizeimages/requirements.txt ]; then pip install -r resizeimages/requirements.txt; fi
+        pip install pillow
     - name: 🥝 Where
       run: |
         ls -lh
         pwd
     - name: 🥒 Make
       run: |
-        python resizeimages/resizeimages.py moscow3/imgs
+        python resizeimages.py moscow3/imgs
     - name: 🍒 Git Auto Commit
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
