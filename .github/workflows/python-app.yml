@@ -25,10 +25,6 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip install pillow
-    - name: 🥝 Where
-      run: |
-        ls -lh
-        pwd
     - name: 🥒 Make
       run: |
         python resizeimages.py moscow3/imgs
