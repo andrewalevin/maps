@@ -1,4 +1,7 @@
 
+
+
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
 const map = new mapboxgl.Map({
@@ -9,7 +12,7 @@ const map = new mapboxgl.Map({
 });
 
 
-const url = 'data.yaml';
+const url = 'https://andrewalevin.github.io/maps/moscow3/data.yaml';
 fetch(url)
   .then((response) => {
     return response.text();
@@ -20,27 +23,69 @@ fetch(url)
   .then((data) => {
     mapProcess(data);
   });
+
   
+const imgs_url = 'https://andrewalevin.github.io/maps/moscow3/imgs/';
+
+
+function getRadius(zoom) {
+  let radius = 8 * (zoom - 8);
+  if (radius < 10)
+      radius = 10;
+  return radius.toFixed(0)
+}
+
 
 function mapProcess(data) {
-  for (const feature of data) {
-    const element = document.createElement('div');
-    element.className = 'marker';
-  
-    new mapboxgl.Marker(element)
-      .setLngLat(feature.geometry.coordinates)
+  const radius = getRadius(map.getZoom());
+  for (const rawitem of data) {
+    const item = {
+      'coordinates': rawitem[0],
+      'title': rawitem[1],
+      'description': rawitem[2],
+      'thumbnail': rawitem[3],
+    }
+
+    const elem = document.createElement('div');
+    elem.className = 'marker';
+    elem.style.width = `${radius}px`;
+    elem.style.height = `${radius}px`;
+
+
+    if (item.thumbnail){
+      const parts = item.thumbnail.split('.')
+      const filename = `${imgs_url}${parts[0]}-100.${parts[1]}`;
+      elem.style.backgroundImage = `url(\'${filename }\')`;
+    }
+    const coordinates = item.coordinates.split(', ').reverse();
+    new mapboxgl.Marker(elem)
+      .setLngLat(coordinates)
       .setPopup(
         new mapboxgl.Popup({
             offset: 25
         })
         .setHTML(
-          `<h3>${feature.properties.title}</h3>
-          <p>${feature.properties.description}</p>`
+          `<h3>${item.title}</h3>
+          <p>${item.description}</p>`
         )
       )
       .addTo(map);
   }
 }
+
+
+map.on('zoom', () => {
+  const radius = getRadius(map.getZoom());
+
+  for (const elem of document.getElementsByClassName("marker")) {
+    elem.style.width = `${radius}px`;
+    elem.style.height = `${radius}px`;
+  }
+});
+
+
+
+
 
 
 
