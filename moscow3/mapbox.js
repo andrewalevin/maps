@@ -51,6 +51,8 @@ function mapProcess(data) {
     elem.style.width = `${radius}px`;
     elem.style.height = `${radius}px`;
 
+    console.log(item.thumbnail);
+    
     if (item.thumbnail)
       elem.style.backgroundImage = `url(\'${imgs_url}${item.thumbnail}\')`;
   
