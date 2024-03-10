@@ -27,6 +27,7 @@ fetch(url)
   
 const imgs_url = 'https://andrewalevin.github.io/maps/moscow3/imgs/';
 
+
 function getRadius(zoom) {
   let radius = 8 * (zoom - 8);
   if (radius < 10)
@@ -51,7 +52,7 @@ function mapProcess(data) {
     elem.style.height = `${radius}px`;
 
     if (item.thumbnail)
-      elem.setAttribute('style', `background-image: url(\'${imgs_url}${item.thumbnail}\'); background-size: cover;`);
+      elem.style.backgroundImage = `url(\'${imgs_url}${item.thumbnail}\')`;
   
     const coordinates = item.coordinates.split(', ').reverse();
     new mapboxgl.Marker(elem)

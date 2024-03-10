@@ -11,7 +11,7 @@ body {
 }
 
 .marker {
-    background-image: url('https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png');
+    background-image: url('mapbox-icon.png');
     background-size: cover;
     width: 30px;
     height: 30px;
