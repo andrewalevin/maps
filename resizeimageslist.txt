@@ -1,4 +1,2 @@
 moscow3/imgs 100
-imgs2 200
-imgs3 ervfer
-imgs0 200
+moscow3/imgs2 250
