@@ -1,3 +1,4 @@
+import sys
 import pathlib
 from PIL import Image
 
@@ -18,3 +19,7 @@ def resize(path, size=100, allowed_extensions=None):
         image = Image.open(file.as_posix())
         image.thumbnail((size, size))
         image.save(thumbnail.as_posix())
+
+
+if __name__ == "__main__":
+    resize(sys.argv[1])
