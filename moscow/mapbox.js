@@ -25,7 +25,7 @@ fetch(url)
   });
 
   
-const imgs_url = 'https://andrewalevin.github.io/maps/moscow3/imgs/';
+const imgs_url = 'https://andrewalevin.github.io/maps/moscow/imgs/';
 
 
 function getRadius(zoom) {
