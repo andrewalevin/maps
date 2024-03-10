@@ -1,23 +1,15 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
-
+name: 🥒 Resize Images - Python application
 on:
   push:
     branches: [ "main" ]
-
 permissions:
   contents: write
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.10
+    - name: 🥑 Set up Python 3.10
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
@@ -25,12 +17,10 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip install pillow
-    - name: 🥒 Make
+    - name: 🥒 Make Resize
       run: |
         python3 resizeimages.py resizeimageslist.txt
     - name: 🍒 Git Auto Commit
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: Apply automatic changes
-
-          
