@@ -12,7 +12,7 @@ const map = new mapboxgl.Map({
 });
 
 
-const url = 'https://andrewalevin.github.io/maps/moscow3/data.yaml';
+const url = 'https://andrewalevin.github.io/maps/moscow/data.yaml';
 fetch(url)
   .then((response) => {
     return response.text();
