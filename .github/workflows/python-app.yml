@@ -25,6 +25,10 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         if [ -f resizeimages/requirements.txt ]; then pip install -r resizeimages/requirements.txt; fi
+    - name: 🥝 Where
+      run: |
+        ls -lh
+        pwd
     - name: 🥒 Make
       run: |
         python resizeimages/resizeimages.py moscow3/imgs
