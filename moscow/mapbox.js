@@ -27,7 +27,7 @@ fetch(`${URL_ROOT}data.yaml`)
 
 
 function getRadius(zoom) {
-  let radius = 8 * (zoom - 8);
+  let radius = 9 * (zoom - 9);
   if (radius < 10)
       radius = 10;
   return radius.toFixed(0)
