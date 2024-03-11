@@ -1,2 +1,3 @@
 moscow/imgs 100
+moscow/imgs 220
 moscow/imgs2 250

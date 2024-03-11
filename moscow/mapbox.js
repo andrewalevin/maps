@@ -56,7 +56,7 @@ function mapProcess(data) {
       const filename = `${URL_ROOT}imgs/${parts[0]}-100.${parts[1]}`;
       elem.style.backgroundImage = `url(\'${filename }\')`;
       
-      const img_url = `${URL_ROOT}imgs/${parts[0]}.${parts[1]}`;
+      const img_url = `${URL_ROOT}imgs/${parts[0]}-220.${parts[1]}`;
       img_content = `<img loading="lazy" src="${img_url}"/>`;
     }
     const coordinates = item.coordinates.split(', ').reverse();
