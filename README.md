@@ -6,8 +6,7 @@
 
 ### Moscow
 
-![Alt text](https://assets.digitalocean.com/articles/alligator/boo.svg "a title")
 
-[![Alt text](moscow/preview.png)](moscow/)
+<a href="moscow/"><img src="dmoscow/preview.png" alt="drawing" style="width:200px;"/></a>
 
 - [🗺️ My Moscow Map](moscow/)
