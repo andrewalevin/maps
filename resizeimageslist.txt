@@ -1,2 +1,4 @@
 moscow/imgs 100
 moscow/imgs 220
+moscow-cofeshops/imgs 100
+moscow-cofeshops/imgs 220
