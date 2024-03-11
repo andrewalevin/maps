@@ -55,6 +55,7 @@ function mapProcess(data) {
       const parts = item.thumbnail.split('.')
       const filename = `${URL_ROOT}imgs/${parts[0]}-100.${parts[1]}`;
       elem.style.backgroundImage = `url(\'${filename }\')`;
+      
       const img_url = `${URL_ROOT}imgs/${parts[0]}.${parts[1]}`;
       img_content = `<img loading="lazy" src="${img_url}"/>`;
     }
