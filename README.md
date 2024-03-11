@@ -7,6 +7,6 @@
 ### Moscow
 
 
-<a href="moscow/"><img src="moscow/preview.png" alt="drawing" style="width:200px;"/></a>
+<a href="moscow/"><img src="moscow/preview.png" alt="drawing" style="width:300px;"/></a>
 
 - [🗺️ My Moscow Map](moscow/)
