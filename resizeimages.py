@@ -83,7 +83,7 @@ def read_file(path) -> str:
 
 def make_multiple_resize(path):
     data = read_file(path)
-    for row in data.split('\n'):
+    for row in data.strip().split('\n'):
         row = row.strip()
         parts = row.split(' ')
         print(parts)
