@@ -6,5 +6,4 @@
 
 ### Moscow
 
-- [moscow/](moscow/)
-- [moscow2/](moscow2/)
+- [🗺️ My Moscow Map](moscow/)
