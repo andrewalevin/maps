@@ -30,3 +30,9 @@ body {
 }
 
 .popup img {}
+
+.popup p {}
+
+.popup p a {
+    word-wrap: break-word;
+}
