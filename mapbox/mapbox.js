@@ -61,6 +61,11 @@ function mapProcess(data) {
 
     
     const coordinates = item.coordinates.split(', ').reverse();
+
+    let description = '';
+    if (item.description)
+      description = item.description;
+
     new mapboxgl.Marker(elem)
       .setLngLat(coordinates)
       .setPopup(
@@ -69,7 +74,7 @@ function mapProcess(data) {
         })
         .setHTML(
           `<div class="popup"><h3>${item.title}</h3>
-          <p>${img_content}${item.description}</p></div>`
+          <p>${img_content}${description}</p></div>`
         )
       )
       .addTo(map);
