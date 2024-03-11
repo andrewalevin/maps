@@ -4,9 +4,10 @@
 🗺️ Maps
 
 
-### Moscow
+### 🗺️ Moscow
 
+- [moscow/](moscow/)
 
 <a href="moscow/"><img src="moscow/preview.png" alt="drawing" style="width:300px;"/></a>
 
-- [🗺️ My Moscow Map](moscow/)
+
