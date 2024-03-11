@@ -1,7 +1,6 @@
 
 
-const URL_ROOT =  'https://andrewalevin.github.io/maps/moscow/';
-//const URL_ROOT =  '';
+const URL_ROOT =  '';
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
