@@ -55,6 +55,7 @@ function mapProcess(data) {
       const filename = `${URL_ROOT}imgs/${parts[0]}-100.${parts[1]}`;
       elem.style.backgroundImage = `url(\'${filename }\')`;
     }
+    const img_url = `${URL_ROOT}imgs/${parts[0]}.${parts[1]}`;
     const coordinates = item.coordinates.split(', ').reverse();
     new mapboxgl.Marker(elem)
       .setLngLat(coordinates)
@@ -64,7 +65,7 @@ function mapProcess(data) {
         })
         .setHTML(
           `<h3>${item.title}</h3>
-          <p>${item.description}</p>`
+          <p><img loading="lazy" src="${img_url}"/>${item.description}</p>`
         )
       )
       .addTo(map);
