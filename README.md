@@ -7,6 +7,6 @@
 
 - [moscow/](moscow/)
 
-<a href="moscow/"><img src="moscow/preview.png" alt="drawing" style="width:300px;"/></a>
+<a href="moscow/"><img src="moscow/preview.png" alt="drawing" style="width: 100%; max-width: 300px; "/></a>
 
 
