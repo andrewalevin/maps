@@ -1,2 +1,2 @@
 moscow/imgs 100
-moscow/imgs2 250
+moscow/imgs 220
