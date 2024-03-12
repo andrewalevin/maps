@@ -1,8 +1,5 @@
 
 
-const URL_ROOT =  '';
-
-
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
 const map = new mapboxgl.Map({
@@ -13,16 +10,6 @@ const map = new mapboxgl.Map({
 });
 
 
-fetch(`${URL_ROOT}data.yaml`)
-  .then((response) => {
-    return response.text();
-  })
-  .then((text) => {
-    return jsyaml.load(text);
-  })
-  .then((data) => {
-    mapProcess(data);
-  });
 
 
 function mapProcess(data) {
@@ -46,7 +33,7 @@ function genHexString(len=8){
 }
 
 
-function paintCountry(countryCodeAlpha3, color='#6495ED', opacity=0.4){
+function paintCountry(countryCodeAlpha3List, color='#6495ED', opacity=0.4){
   const id_hash = genHexString();
   map.addLayer(
     {
@@ -64,12 +51,11 @@ function paintCountry(countryCodeAlpha3, color='#6495ED', opacity=0.4){
     },
     'country-label'
   );
+    const arrStart = ["in", "iso_3166_1_alpha_3"];
 
-  map.setFilter(id_hash, [
-    "in",
-    "iso_3166_1_alpha_3",
-    countryCodeAlpha3,
-  ]);
+    const allOptions = arrStart.concat(countryCodeAlpha3List);
+
+  map.setFilter(id_hash, allOptions);
 }
 
 
@@ -77,13 +63,22 @@ function paintCountry(countryCodeAlpha3, color='#6495ED', opacity=0.4){
 
 map.on('load', function() {
 
- paintCountry('NLD', '#d2361e');
+  const taxedCountries = Object.keys(taxInheritance);
+  paintCountry(taxedCountries, '#ff1a71');
 
- paintCountry('GBR', '#0000ff');
 
- paintCountry('FRA', '#d4ac0d');
+  const notDataCountries = allCountries.filter(item => !taxedCountries.includes(item));  
+  paintCountry(notDataCountries, '#40E8D0');
 
- paintCountry('RUS', '#40E0D0');
+
+  /*
+  paintCountry(['NLD'], '#d2361e');
+  paintCountry(['GBR'], '#0000ff');
+  paintCountry(['FRA'], '#d4ac0d');
+  */
+
+  
+  
 
 
 });
