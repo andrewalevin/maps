@@ -10,6 +10,13 @@ const map = new mapboxgl.Map({
 });
 
 
+map.addControl(
+  new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl
+  })
+);
+
 
 
 function mapProcess(data) {
@@ -64,10 +71,12 @@ function paintCountry(countryCodeAlpha3List, color='#6495ED', opacity=0.4){
 map.on('load', function() {
 
   const taxedCountries = Object.keys(taxInheritance);
+  console.log(taxedCountries);
   paintCountry(taxedCountries, '#ff1a71');
 
 
   const notDataCountries = allCountries.filter(item => !taxedCountries.includes(item));  
+  console.log(notDataCountries);
   paintCountry(notDataCountries, '#40E8D0');
 
 
@@ -77,54 +86,18 @@ map.on('load', function() {
   paintCountry(['FRA'], '#d4ac0d');
   */
 
-  
-  
+
+
 
 
 });
 
 
 
+var option = document.createElement('option');
+option.textContent = groups[index].label;
+document.getElementById('ofg-select').appendChild(option);
 
 
 
 
-
-/*
-var geocoder = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  mapboxgl: mapboxgl,
-  countries: 'all'
-});
-
-document.querySelector('.search-container').appendChild(geocoder.onAdd(map));
-
-function searchCountry() {
-  var query = document.getElementById('search').value;
-  geocoder.query(query);
-}
-
-map.on('load', function () {
-  map.addSource('countries', {
-    'type': 'vector',
-    'url': 'mapbox://mapbox.country-boundaries-v1'
-  });
-
-  map.addLayer({
-    'id': 'countries-layer',
-    'type': 'fill',
-    'source': 'countries',
-    'source-layer': 'country_boundaries',
-    'paint': {
-      'fill-color': 'rgba(200, 100, 240, 0.4)',
-      'fill-outline-color': 'rgba(200, 100, 240, 1)'
-    }
-  });
-
-  geocoder.on('result', function (e) {
-    var country = e.result.text;
-    map.setFilter('countries-layer', ['==', 'admin', country]);
-  });
-});
-
-*/
