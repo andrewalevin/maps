@@ -31,24 +31,22 @@
 
 
 
-        let geojson = '';
+
         console.log('🍎🍎🍎 FETCH GeoJson');
+
+        let geojson = '';
+        let center = [];
 
         //geojson = 'https://docs.mapbox.com/mapbox-gl-js/assets/route-pin.geojson';
 
+
         geojson = 'https://andrewalevin.github.io/maps/dev/route-pin.geojson';
+        center = [6.58968, 45.39701];
 
         geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo.geojson';
-
-        //geojson = 'file:///Users/andrewlevin/Desktop/maps/dev/route-pin.geojson';
-        //geojson = 'file:///Users/andrewlevin/Desktop/maps/dev/query-terrain-elevation.html'
-
-
-        let center = [];
-        center = [6.58968, 45.39701];
         center = [36.7109, 55.6773];
 
-        //geojson = 'file:///Users/andrewlevin/Desktop/maps/dev/query-terrain-elevation.html'
+
 
         (async() => {
             const map = new mapboxgl.Map({
@@ -92,6 +90,7 @@
             });
 
             const pinRoute = pinRouteGeojson.features[0].geometry.coordinates;
+            console.log('🍉🍉🍉', pinRoute);
             // Create the marker and popup that will display the elevation queries
             const popup = new mapboxgl.Popup({
                 closeButton: false
@@ -150,8 +149,8 @@
                 const alongPath = turf.along(path, pathDistance * animationPhase)
                     .geometry.coordinates;
                 const lngLat = {
-                    lng: alongPath[1],
-                    lat: alongPath[0]
+                    lng: alongPath[0],
+                    lat: alongPath[1]
                 };
 
                 // Sample the terrain elevation. We round to an integer value to
