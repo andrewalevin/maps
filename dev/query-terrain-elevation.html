@@ -53,10 +53,10 @@
         (async() => {
             const map = new mapboxgl.Map({
                 container: 'map',
-                zoom: 12,
+                zoom: 11,
                 center: center,
-                pitch: 76,
-                bearing: 180,
+                pitch: 50,
+                bearing: 240,
                 // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
                 style: 'mapbox://styles/mapbox/satellite-streets-v12',
                 interactive: false,
@@ -167,18 +167,11 @@
                     })
                 );
 
-                if (lastPoint) {
-                    var distance = turf.distance(
-                        turf.point(lastPoint),
-                        turf.point([alongPath[0], alongPath[1]]), {
-                            units: 'kilometers'
-                        }
-                    );
-                    totalDistance += distance;
-                    console.log('distance: ', totalDistance, 'km');
-
-                }
-                lastPoint = [alongPath[0], alongPath[1]];
+                if (lastPoint)
+                    totalDistance += turf.distance(turf.point(lastPoint), turf.point(alongPath), {
+                        units: 'kilometers'
+                    });
+                lastPoint = alongPath;
 
                 // Update the popup altitude value and marker location
                 popup.setHTML('Distance: ' + Math.trunc(totalDistance) + ' km<br/>');
@@ -196,7 +189,7 @@
 
                 // Rotate the camera at a slightly lower speed to give some parallax effect in the background
                 const rotation = 150 - animationPhase * 40.0;
-                map.setBearing(rotation % 360);
+                map.setBearing(rotation % 360 + 90);
 
                 window.requestAnimationFrame(frame);
             }
