@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Mapbox Query Terrain</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/turf/7.2.0/turf.min.js'></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id='map'></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
+
+        // Define the LineString feature
+        var lineString = {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [1.0, 1.0],
+                    [2.0, 2.0],
+                    [3.0, 3.0],
+                    [4.0, 4.0]
+                ]
+            }
+        };
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/outdoors-v11',
+            center: [2.5, 2.5],
+            zoom: 10
+        });
+
+        map.on('load', function() {
+            // Add the LineString to the map
+            map.addSource('line', {
+                'type': 'geojson',
+                'data': lineString
+            });
+
+            map.addLayer({
+                'id': 'line',
+                'type': 'line',
+                'source': 'line',
+                'layout': {},
+                'paint': {
+                    'line-color': '#ff0000',
+                    'line-width': 2
+                }
+            });
+
+            // Add marker
+            var marker = new mapboxgl.Marker()
+                .setLngLat([2.0, 2.0])
+                .addTo(map);
+
+            // Calculate distance and display in popup on marker click
+            marker.getElement().addEventListener('click', function() {
+                var lineDistance = turf.length(lineString);
+                new mapboxgl.Popup()
+                    .setLngLat(marker.getLngLat())
+                    .setHTML('Total distance: ' + lineDistance.toFixed(2) + ' km')
+                    .addTo(map);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

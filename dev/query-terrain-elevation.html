@@ -45,8 +45,8 @@
 
         geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo.geojson';
         geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo-reverted.geojson';
-
         center = [36.7109, 55.6773];
+
 
 
 
@@ -132,13 +132,16 @@
 
             await map.once('idle');
             // The total animation duration, in milliseconds
-            const animationDuration = 20000;
+            const animationDuration = 30000;
             // Use the https://turfjs.org/ library to calculate line distances and
             // sample the line at a given percentage with the turf.along function.
             const path = turf.lineString(pinRoute);
             // Get the total line distance
             const pathDistance = turf.lineDistance(path);
             let start;
+
+            let totalDistance = 0;
+            let lastPoint = null;
 
             function frame(time) {
                 if (!start) start = time;
@@ -164,9 +167,22 @@
                     })
                 );
 
+                if (lastPoint) {
+                    var distance = turf.distance(
+                        turf.point(lastPoint),
+                        turf.point([alongPath[0], alongPath[1]]), {
+                            units: 'kilometers'
+                        }
+                    );
+                    totalDistance += distance;
+                    console.log('distance: ', totalDistance, 'km');
+
+                }
+                lastPoint = [alongPath[0], alongPath[1]];
+
                 // Update the popup altitude value and marker location
-                popup.setHTML('Altitude: ' + elevation + 'm<br/>');
-                console.log(lngLat);
+                popup.setHTML('Distance: ' + Math.trunc(totalDistance) + ' km<br/>');
+                //console.log(lngLat);
                 marker.setLngLat(lngLat);
 
                 // Reduce the visible length of the line by using a line-gradient to cutoff the line
