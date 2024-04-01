@@ -36,21 +36,27 @@
 
         //geojson = 'https://docs.mapbox.com/mapbox-gl-js/assets/route-pin.geojson';
 
-        geojson = 'route-pin.geojson';
+        geojson = 'https://andrewalevin.github.io/maps/dev/route-pin.geojson';
+
+        geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo.geojson';
 
         //geojson = 'file:///Users/andrewlevin/Desktop/maps/dev/route-pin.geojson';
         //geojson = 'file:///Users/andrewlevin/Desktop/maps/dev/query-terrain-elevation.html'
 
+
+        let center = [];
+        center = [6.58968, 45.39701];
+        center = [36.7109, 55.6773];
 
         //geojson = 'file:///Users/andrewlevin/Desktop/maps/dev/query-terrain-elevation.html'
 
         (async() => {
             const map = new mapboxgl.Map({
                 container: 'map',
-                zoom: 13,
-                center: [6.58968, 45.39701],
+                zoom: 12,
+                center: center,
                 pitch: 76,
-                bearing: 150,
+                bearing: 180,
                 // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
                 style: 'mapbox://styles/mapbox/satellite-streets-v12',
                 interactive: false,
@@ -144,8 +150,8 @@
                 const alongPath = turf.along(path, pathDistance * animationPhase)
                     .geometry.coordinates;
                 const lngLat = {
-                    lng: alongPath[0],
-                    lat: alongPath[1]
+                    lng: alongPath[1],
+                    lat: alongPath[0]
                 };
 
                 // Sample the terrain elevation. We round to an integer value to
@@ -159,6 +165,7 @@
 
                 // Update the popup altitude value and marker location
                 popup.setHTML('Altitude: ' + elevation + 'm<br/>');
+                console.log(lngLat);
                 marker.setLngLat(lngLat);
 
                 // Reduce the visible length of the line by using a line-gradient to cutoff the line
