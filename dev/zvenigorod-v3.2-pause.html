@@ -37,16 +37,35 @@
             padding: 8px;
             pointer-events: auto;
         }
+        
+        #pauseButton {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            z-index: 1;
+            color: #111;
+            background-color: rgb(128 128 128 / 50%);
+            padding: .75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 200;
+        }
     </style>
 </head>
 
 <body>
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <div id="map"></div>
+
+    <button id="pauseButton">Pause</button>
+
     <script>
         //mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
         mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
-
 
 
 
@@ -82,6 +101,21 @@
                 hash: false
             });
 
+            var isPaused = false;
+            var pauseButton = document.getElementById('pauseButton');
+
+            pauseButton.addEventListener('click', function() {
+                console.log('🧲🧲🧲 Pause');
+                isPaused = !isPaused;
+                if (isPaused) {
+                    map.pauseAnimation();
+                    pauseButton.textContent = 'Resume Animation';
+                } else {
+                    map.resumeAnimation();
+                    pauseButton.textContent = 'Pause Animation';
+                }
+            });
+
             // Start downloading the route data, and wait for map load to occur in parallel
             const [pinRouteGeojson] = await Promise.all([
                 fetch(
@@ -111,7 +145,6 @@
             });
 
             const pinRoute = pinRouteGeojson.features[0].geometry.coordinates;
-            console.log('🍉🍉🍉', pinRoute);
 
             // Create the marker and popup that will display the elevation queries
             const popup = new mapboxgl.Popup({
