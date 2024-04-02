@@ -25,20 +25,22 @@
 <body>
     <div id="map"></div>
 
-    <script src="https://docs.mapbox.com/mapbox-gl-js/assets/routes.js"></script>
+    <script src="https://andrewalevin.github.io/maps/dev/routes-zvenigorod.js"></script>
+
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
         const map = new mapboxgl.Map({
             container: 'map',
-            zoom: 11.53,
-            center: [6.5615, 46.0598],
-            pitch: 65,
+            center: [36.71328, 55.6777],
+            pitch: 70,
             bearing: -180,
             // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-            style: 'mapbox://styles/mapbox/outdoors-v12',
+            style: 'mapbox://styles/mapbox/satellite-streets-v12',
             interactive: false
         });
+
+
 
         // `routes` comes from https://docs.mapbox.com/mapbox-gl-js/assets/routes.js,
         // which has properties that are in the shape of an array of arrays that correspond
@@ -81,7 +83,7 @@
                 source: 'trace',
                 id: 'line',
                 paint: {
-                    'line-color': 'black',
+                    'line-color': 'red',
                     'line-width': 5
                 },
                 layout: {
@@ -93,8 +95,8 @@
 
         // wait for the terrain and sky to load before starting animation
         map.on('load', () => {
-            const animationDuration = 80000;
-            const cameraAltitude = 4000;
+            const animationDuration = 100000;
+            const cameraAltitude = 3000;
             // get the overall distance of each route so we can interpolate along them
             const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
             const cameraRouteDistance = turf.lineDistance(
