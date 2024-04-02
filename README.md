@@ -19,6 +19,6 @@
 
 ### Dev
 
-![telegram-cloud-photo-size-2-5213145546729052395-y](https://github.com/andrewalevin/maps/assets/155118488/4ccf8568-e3dc-459f-a1db-e38dc1f4ff00)
+![telegram-cloud-photo-size-2-5213145546729052395-y](dev/query-terrain-elevation)
 
 - [dev/query-terrain-elevation](dev/query-terrain-elevation)
