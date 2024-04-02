@@ -20,6 +20,20 @@
             width: 100%;
         }
     </style>
+    <style>
+        .mapboxgl-popup-content,
+        .mapboxgl-popup-tip {
+            opacity: 0.8;
+        }
+        
+        .mapboxgl-popup-content {
+            position: relative;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
+            padding: 8px;
+            pointer-events: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -174,7 +188,7 @@
                 lastPoint = alongPath;
 
                 // Update the popup altitude value and marker location
-                popup.setHTML('Distance: ' + Math.trunc(totalDistance) + ' km<br/>');
+                popup.setHTML(Math.trunc(totalDistance) + ' km<br/>');
                 //console.log(lngLat);
                 marker.setLngLat(lngLat);
 
