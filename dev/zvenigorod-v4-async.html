@@ -47,9 +47,6 @@
         //mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
         mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
-
-
-
         console.log('🍎🍎🍎 FETCH GeoJson');
 
         let geojson = '';
@@ -65,7 +62,8 @@
         geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo-reverted.geojson';
         center = [36.7109, 55.6773];
 
-
+        //let style = 'mapbox://styles/mapbox/satellite-streets-v12';
+        const style = 'mapbox://styles/andrewlevin/cluijydsn00fx01ntgmkx8zgh';
 
         (async() => {
             const map = new mapboxgl.Map({
@@ -74,7 +72,7 @@
                 center: center,
                 pitch: 50,
                 bearing: 240,
-                style: 'mapbox://styles/mapbox/satellite-streets-v12',
+                style: style,
                 interactive: false,
                 hash: false
             });
@@ -96,12 +94,13 @@
             });
 
             // Add terrain source, with slight exaggeration
-            map.addSource('mapbox-dem', {
+            /*map.addSource('mapbox-dem', {
                 'type': 'raster-dem',
                 'url': 'mapbox://mapbox.terrain-rgb',
                 'tileSize': 512,
                 'maxzoom': 14
             });
+            */
             map.setTerrain({
                 'source': 'mapbox-dem',
                 'exaggeration': 1.5
@@ -150,7 +149,7 @@
             await map.once('idle');
 
             // The total animation duration, in milliseconds
-            const animationDuration = 50000;
+            const animationDuration = 90000;
             // Use the https://turfjs.org/ library to calculate line distances and
             // sample the line at a given percentage with the turf.along function.
             const path = turf.lineString(pinRoute);
@@ -254,6 +253,7 @@
                 popup.setHTML(Math.trunc(totalDistance) + ' km<br/>');
                 //console.log(lngLat);
                 marker.setLngLat(lngLat);
+                // FOUND camera._position.toLngLat()
 
 
                 window.requestAnimationFrame(frame);
