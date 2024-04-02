@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Query terrain elevation</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+
+    <script src="https://andrewalevin.github.io/maps/dev/routes-zvenigorod.js"></script>
+
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <style>
+        .mapboxgl-popup-content,
+        .mapboxgl-popup-tip {
+            opacity: 0.8;
+        }
+        
+        .mapboxgl-popup-content {
+            position: relative;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
+            padding: 8px;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <div id="map"></div>
+    <script>
+        //mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
+
+
+
+
+        console.log('🍎🍎🍎 FETCH GeoJson');
+
+        let geojson = '';
+        let center = [];
+
+        //geojson = 'https://docs.mapbox.com/mapbox-gl-js/assets/route-pin.geojson';
+
+
+        geojson = 'https://andrewalevin.github.io/maps/dev/route-pin.geojson';
+        center = [6.58968, 45.39701];
+
+        geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo.geojson';
+        geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo-reverted.geojson';
+        center = [36.7109, 55.6773];
+
+
+
+        (async() => {
+            const map = new mapboxgl.Map({
+                container: 'map',
+                zoom: 11,
+                center: center,
+                pitch: 50,
+                bearing: 240,
+                style: 'mapbox://styles/mapbox/satellite-streets-v12',
+                interactive: false,
+                hash: false
+            });
+
+            // Start downloading the route data, and wait for map load to occur in parallel
+            const [pinRouteGeojson] = await Promise.all([
+                fetch(
+                    geojson
+                ).then((response) => response.json()),
+                map.once('style.load')
+            ]);
+
+            // Set custom fog
+            map.setFog({
+                'range': [-0.5, 2],
+                'color': '#def',
+                'high-color': '#def',
+                'space-color': '#def'
+            });
+
+            // Add terrain source, with slight exaggeration
+            map.addSource('mapbox-dem', {
+                'type': 'raster-dem',
+                'url': 'mapbox://mapbox.terrain-rgb',
+                'tileSize': 512,
+                'maxzoom': 14
+            });
+            map.setTerrain({
+                'source': 'mapbox-dem',
+                'exaggeration': 1.5
+            });
+
+            const pinRoute = pinRouteGeojson.features[0].geometry.coordinates;
+            console.log('🍉🍉🍉', pinRoute);
+
+            // Create the marker and popup that will display the elevation queries
+            const popup = new mapboxgl.Popup({
+                closeButton: false
+            });
+            const marker = new mapboxgl.Marker({
+                    color: 'red',
+                    scale: 0.8,
+                    draggable: false,
+                    pitchAlignment: 'auto',
+                    rotationAlignment: 'auto'
+                })
+                .setLngLat(pinRoute[0])
+                .setPopup(popup)
+                .addTo(map)
+                .togglePopup();
+
+            // Add a line feature and layer. This feature will get updated as we progress the animation
+            map.addSource('line', {
+                type: 'geojson',
+                // Line metrics is required to use the 'line-progress' property
+                lineMetrics: true,
+                data: pinRouteGeojson
+            });
+            map.addLayer({
+                type: 'line',
+                source: 'line',
+                id: 'line',
+                paint: {
+                    'line-color': 'rgba(0,0,0,0)',
+                    'line-width': 5
+                },
+                layout: {
+                    'line-cap': 'round',
+                    'line-join': 'round'
+                }
+            });
+
+            await map.once('idle');
+
+            // The total animation duration, in milliseconds
+            const animationDuration = 50000;
+            // Use the https://turfjs.org/ library to calculate line distances and
+            // sample the line at a given percentage with the turf.along function.
+            const path = turf.lineString(pinRoute);
+            // Get the total line distance
+            const pathDistance = turf.lineDistance(path);
+            let start;
+
+            let totalDistance = 0;
+            let lastPoint = null;
+
+
+            // ZVENIGOROD-CAMERA
+            const targetRoute = routes.target;
+            const cameraRoute = routes.camera;
+            const cameraAltitude = 2000;
+
+            const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
+            const cameraRouteDistance = turf.lineDistance(
+                turf.lineString(cameraRoute)
+            );
+
+
+            function frame(time) {
+                if (!start) start = time;
+                const phase = (time - start) / animationDuration;
+                if (phase > 1) {
+                    return;
+                }
+
+                // Get the new latitude and longitude by sampling along the path
+                const alongPath = turf.along(path, pathDistance * phase)
+                    .geometry.coordinates;
+                const lngLat = {
+                    lng: alongPath[0],
+                    lat: alongPath[1]
+                };
+
+                // Sample the terrain elevation. We round to an integer value to
+                // prevent showing a lot of digits during the animation
+                const elevation = Math.floor(
+                    // Do not use terrain exaggeration to get actual meter values
+                    map.queryTerrainElevation(lngLat, {
+                        exaggerated: false
+                    })
+                );
+
+                if (lastPoint)
+                    totalDistance += turf.distance(turf.point(lastPoint), turf.point(alongPath), {
+                        units: 'kilometers'
+                    });
+                lastPoint = alongPath;
+
+
+
+                // Reduce the visible length of the line by using a line-gradient to cutoff the line
+                // phase is a value between 0 and 1 that reprents the progress of the animation
+                map.setPaintProperty('line', 'line-gradient', [
+                    'step', ['line-progress'],
+                    'red',
+                    phase,
+                    'rgba(255, 0, 0, 0)'
+                ]);
+
+                // Rotate the camera at a slightly lower speed to give some parallax effect in the background
+                const rotation = 150 - phase * 40.0;
+                map.setBearing(rotation % 360 + 90);
+
+
+                // CAMERA
+
+                const alongRoute = turf.along(
+                    turf.lineString(targetRoute),
+                    routeDistance * phase
+                ).geometry.coordinates;
+
+                const alongCamera = turf.along(
+                    turf.lineString(cameraRoute),
+                    cameraRouteDistance * phase
+                ).geometry.coordinates;
+
+                const camera = map.getFreeCameraOptions();
+
+                // set the position and altitude of the camera
+                camera.position = mapboxgl.MercatorCoordinate.fromLngLat({
+                        lng: alongCamera[0],
+                        lat: alongCamera[1]
+                    },
+                    cameraAltitude
+                );
+
+                // tell the camera to look at a point along the route
+                camera.lookAtPoint({
+                    lng: alongRoute[0],
+                    lat: alongRoute[1]
+                });
+
+
+                map.setFreeCameraOptions(camera);
+
+                // Update the popup altitude value and marker location
+                popup.setHTML(Math.trunc(totalDistance) + ' km<br/>');
+                //console.log(lngLat);
+                marker.setLngLat(lngLat);
+
+
+                window.requestAnimationFrame(frame);
+            }
+
+            window.requestAnimationFrame(frame);
+        })();
+    </script>
+
+</body>
+
+</html>
