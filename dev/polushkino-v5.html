@@ -8,21 +8,12 @@
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
 
-
-    <!-- 
-       
-    -->
+    <script src="https://andrewalevin.github.io/maps/dev/routes-zvenigorod.js-"></script>
 
 
-    <script src="https://andrewalevin.github.io/maps/dev/routes-zvenigorod.js"></script>
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/zvenigorod-camera-1712171569.js"></script>
 
 
-    <!-- 
-
-    <script src="https://andrewalevin.github.io/maps/notebook/data-output/st-line-1712168373.js"></script>
-
-        
-    -->
     <style>
         body {
             margin: 0;
@@ -65,6 +56,12 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: 200;
+            color: #333;
+            background-color: rgb(231 231 231 / 10%);
+            font-size: 1rem;
+            font-weight: 100;
+            min-width: 6rem;
+            backdrop-filter: blur(1rem);
         }
     </style>
 </head>
@@ -99,6 +96,18 @@
 
         center = [36.7109, 55.6773];
 
+        var isPaused = false;
+        var pauseButton = document.getElementById('pauseButton');
+        pauseButton.addEventListener('click', function() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                console.log('🧲 now Pause');
+                pauseButton.textContent = 'Play';
+            } else {
+                console.log('🧲 now Play');
+                pauseButton.textContent = 'Pause';
+            }
+        });
 
 
         (async() => {
@@ -113,20 +122,9 @@
                 hash: false
             });
 
-            var isPaused = false;
-            var pauseButton = document.getElementById('pauseButton');
 
-            pauseButton.addEventListener('click', function() {
-                console.log('🧲🧲🧲 Pause');
-                isPaused = !isPaused;
-                if (isPaused) {
-                    map.pauseAnimation();
-                    pauseButton.textContent = 'Resume Animation';
-                } else {
-                    map.resumeAnimation();
-                    pauseButton.textContent = 'Pause Animation';
-                }
-            });
+
+
 
             // Start downloading the route data, and wait for map load to occur in parallel
             const [pinRouteGeojson] = await Promise.all([
@@ -204,7 +202,7 @@
             const path = turf.lineString(pinRoute);
             // Get the total line distance
             const pathDistance = turf.lineDistance(path);
-            let start;
+
 
             let totalDistance = 0;
             let lastPoint = null;
@@ -213,111 +211,108 @@
             // ZVENIGOROD-CAMERA
             const targetRoute = routes.target;
             const cameraRoute = routes.camera;
-            let cameraAltitude = 16000;
+            const cameraAltitude = 2000;
 
             const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
             const cameraRouteDistance = turf.lineDistance(
                 turf.lineString(cameraRoute)
             );
 
+            let lastTime = 0;
+            let totalTime = 0;
 
             function frame(time) {
-                if (!start) start = time;
-                const phase = (time - start) / animationDuration;
-                if (phase > 1) {
-                    return;
-                }
+                if (!isPaused) {
+                    totalTime += (time - lastTime);
+                    const phase = totalTime / animationDuration;
+                    if (phase > 1) {
+                        return;
+                    }
 
-                // Get the new latitude and longitude by sampling along the path
-                const alongPath = turf.along(path, pathDistance * phase)
-                    .geometry.coordinates;
-                const lngLat = {
-                    lng: alongPath[0],
-                    lat: alongPath[1]
-                };
+                    // Get the new latitude and longitude by sampling along the path
+                    const alongPath = turf.along(path, pathDistance * phase)
+                        .geometry.coordinates;
+                    const lngLat = {
+                        lng: alongPath[0],
+                        lat: alongPath[1]
+                    };
 
-                // Sample the terrain elevation. We round to an integer value to
-                // prevent showing a lot of digits during the animation
-                const elevation = Math.floor(
-                    // Do not use terrain exaggeration to get actual meter values
-                    map.queryTerrainElevation(lngLat, {
-                        exaggerated: false
-                    })
-                );
+                    // Sample the terrain elevation. We round to an integer value to
+                    // prevent showing a lot of digits during the animation
+                    const elevation = Math.floor(
+                        // Do not use terrain exaggeration to get actual meter values
+                        map.queryTerrainElevation(lngLat, {
+                            exaggerated: false
+                        })
+                    );
 
-                if (lastPoint)
-                    totalDistance += turf.distance(turf.point(lastPoint), turf.point(alongPath), {
-                        units: 'kilometers'
+                    if (lastPoint)
+                        totalDistance += turf.distance(turf.point(lastPoint), turf.point(alongPath), {
+                            units: 'kilometers'
+                        });
+                    lastPoint = alongPath;
+
+
+
+                    // Reduce the visible length of the line by using a line-gradient to cutoff the line
+                    // phase is a value between 0 and 1 that reprents the progress of the animation
+                    map.setPaintProperty('line', 'line-gradient', [
+                        'step', ['line-progress'],
+                        'red',
+                        phase,
+                        'rgba(255, 0, 0, 0)'
+                    ]);
+
+                    // Rotate the camera at a slightly lower speed to give some parallax effect in the background
+                    const rotation = 150 - phase * 40.0;
+                    map.setBearing(rotation % 360 + 90);
+
+
+                    // CAMERA
+
+                    const alongRoute = turf.along(
+                        turf.lineString(targetRoute),
+                        routeDistance * phase
+                    ).geometry.coordinates;
+
+                    const alongCamera = turf.along(
+                        turf.lineString(cameraRoute),
+                        cameraRouteDistance * phase
+                    ).geometry.coordinates;
+
+                    const camera = map.getFreeCameraOptions();
+
+                    // set the position and altitude of the camera
+                    camera.position = mapboxgl.MercatorCoordinate.fromLngLat({
+                            lng: alongCamera[0],
+                            lat: alongCamera[1]
+                        },
+                        cameraAltitude
+                    );
+
+                    // tell the camera to look at a point along the route
+                    camera.lookAtPoint({
+                        lng: alongRoute[0],
+                        lat: alongRoute[1]
                     });
-                lastPoint = alongPath;
 
 
+                    map.setFreeCameraOptions(camera);
 
-                // Reduce the visible length of the line by using a line-gradient to cutoff the line
-                // phase is a value between 0 and 1 that reprents the progress of the animation
-                map.setPaintProperty('line', 'line-gradient', [
-                    'step', ['line-progress'],
-                    'red',
-                    phase,
-                    'rgba(255, 0, 0, 0)'
-                ]);
+                    // Update the popup altitude value and marker location
+                    popup.setHTML(Math.trunc(totalDistance) + ' km<br/>');
+                    //console.log(lngLat);
+                    marker.setLngLat(lngLat);
 
-                // Rotate the camera at a slightly lower speed to give some parallax effect in the background
-                const rotation = 150 - phase * 40.0;
-                map.setBearing(rotation % 360 + 90);
-
-
-                // CAMERA
-
-                const alongRoute = turf.along(
-                    turf.lineString(targetRoute),
-                    routeDistance * phase
-                ).geometry.coordinates;
-
-                const alongCamera = turf.along(
-                    turf.lineString(cameraRoute),
-                    cameraRouteDistance * phase
-                ).geometry.coordinates;
-
-                const camera = map.getFreeCameraOptions();
-
-
-                console.log('🐝 Phase: ', phase);
-
-                if (phase < 0.5) {
-                    cameraAltitude = 16000 * (1 - phase);
-                } else {
-                    cameraAltitude = 16000 * phase;
                 }
-                console.log('🏔 cameraAltitude: ', cameraAltitude);
 
-                // set the position and altitude of the camera
-                camera.position = mapboxgl.MercatorCoordinate.fromLngLat({
-                        lng: alongCamera[0],
-                        lat: alongCamera[1]
-                    },
-                    cameraAltitude
-                );
-
-                // tell the camera to look at a point along the route
-                camera.lookAtPoint({
-                    lng: alongRoute[0],
-                    lat: alongRoute[1]
-                });
-
-
-                map.setFreeCameraOptions(camera);
-
-                // Update the popup altitude value and marker location
-                popup.setHTML(Math.trunc(totalDistance) + ' km<br/>');
-                //console.log(lngLat);
-                marker.setLngLat(lngLat);
-
-
+                lastTime = time;
                 window.requestAnimationFrame(frame);
-            }
 
+            }
             window.requestAnimationFrame(frame);
+
+
         })();
     </script>
 
