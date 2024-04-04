@@ -14,6 +14,11 @@
     <script src="https://andrewalevin.github.io/maps/notebook/data-output/zvenigorod-camera-1712171569.js"></script>
 
 
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-camera.js"></script>
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-target.js"></script>
+
+
     <style>
         body {
             margin: 0;
@@ -73,6 +78,11 @@
     <button id="pauseButton">Pause</button>
 
     <script>
+        console.log('🚀 Start Script');
+        console.log('🚀 cameraCoordinates', cameraCoordinates);
+        console.log('🚀 targetCoordinates', targetCoordinates);
+
+
         //mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
         mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
@@ -117,7 +127,7 @@
                 center: center,
                 pitch: 50,
                 bearing: 240,
-                style: 'mapbox://styles/andrewlevin/clukhj27500nl01r2f0ad9xak',
+                style: 'mapbox://styles/mapbox/satellite-streets-v12',
                 interactive: false,
                 hash: false
             });
