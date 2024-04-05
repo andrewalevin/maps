@@ -14,10 +14,17 @@
     <script src="https://andrewalevin.github.io/maps/notebook/data-output/zvenigorod-camera-1712171569.js"></script>
 
 
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-camera.js"></script>
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-camera.js-"></script>
 
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-target.js"></script>
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-target.js-"></script>
 
+    <script src="polushkino-v5-config.js"></script>
+
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-camera.js"></script>
+
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-target.js"></script>
 
     <style>
         body {
@@ -81,32 +88,25 @@
         console.log('🚀 Start Script');
         console.log('🚀 cameraCoordinates', cameraCoordinates);
         console.log('🚀 targetCoordinates', targetCoordinates);
-
+        console.log('');
 
         //mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
         mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
-
-
-        console.log('🍎🍎🍎 FETCH GeoJson');
-
         let geojson = '';
-        let center = [];
-
         //geojson = 'https://docs.mapbox.com/mapbox-gl-js/assets/route-pin.geojson';
 
 
         geojson = 'https://andrewalevin.github.io/maps/dev/route-pin.geojson';
-        center = [6.58968, 45.39701];
 
         geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo.geojson';
         geojson = 'https://andrewalevin.github.io/maps/dev/gigerevo-reverted.geojson';
         geojson = 'https://andrewalevin.github.io/maps/notebook/data-output/zvenigorod-route-1712096945.geojson';
 
 
-        center = [36.7109, 55.6773];
 
         var isPaused = false;
+
         var pauseButton = document.getElementById('pauseButton');
         pauseButton.addEventListener('click', function() {
             isPaused = !isPaused;
@@ -123,16 +123,14 @@
         (async() => {
             const map = new mapboxgl.Map({
                 container: 'map',
-                zoom: 11,
-                center: center,
-                pitch: 50,
-                bearing: 240,
-                style: 'mapbox://styles/mapbox/satellite-streets-v12',
+                zoom: zoomMap,
+                center: centerMap,
+                pitch: pitchMap,
+                bearing: bearingMap,
+                style: styleMap,
                 interactive: false,
                 hash: false
             });
-
-
 
 
 
@@ -146,7 +144,7 @@
 
             // Set custom fog
             map.setFog({
-                'range': [-0.5, 2],
+                'range': rangeFog,
                 'color': '#def',
                 'high-color': '#def',
                 'space-color': '#def'
@@ -206,7 +204,8 @@
             await map.once('idle');
 
             // The total animation duration, in milliseconds
-            const animationDuration = 50000;
+            //const animationDuration = 50000;
+
             // Use the https://turfjs.org/ library to calculate line distances and
             // sample the line at a given percentage with the turf.along function.
             const path = turf.lineString(pinRoute);
@@ -219,25 +218,33 @@
 
 
             // ZVENIGOROD-CAMERA
-            const targetRoute = routes.target;
-            const cameraRoute = routes.camera;
-            const cameraAltitude = 2000;
+            //const targetRoute = routes.target;
+            //const cameraRoute = routes.camera;
+
+
+            const targetRoute = targetCoordinates;
+            const cameraRoute = cameraCoordinates;
 
             const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
-            const cameraRouteDistance = turf.lineDistance(
-                turf.lineString(cameraRoute)
-            );
+            const cameraRouteDistance = turf.lineDistance(turf.lineString(cameraRoute));
+
+            console.log('🥦 routeDistance: ', routeDistance);
 
             let lastTime = 0;
             let totalTime = 0;
 
             function frame(time) {
+
+
+
                 if (!isPaused) {
                     totalTime += (time - lastTime);
                     const phase = totalTime / animationDuration;
                     if (phase > 1) {
                         return;
                     }
+                    console.log('🐝 Time: ', time, 'phase: ', phase);
+
 
                     // Get the new latitude and longitude by sampling along the path
                     const alongPath = turf.along(path, pathDistance * phase)
@@ -274,8 +281,8 @@
                     ]);
 
                     // Rotate the camera at a slightly lower speed to give some parallax effect in the background
-                    const rotation = 150 - phase * 40.0;
-                    map.setBearing(rotation % 360 + 90);
+                    //const rotation = 150 - phase * 40.0;
+                    //map.setBearing(rotation % 360 + 90);
 
 
                     // CAMERA
@@ -290,7 +297,18 @@
                         cameraRouteDistance * phase
                     ).geometry.coordinates;
 
+
+
+                    console.log('🥦 alongRoute : ', alongRoute);
+
+
                     const camera = map.getFreeCameraOptions();
+
+
+
+
+                    let cameraAltitude = getAltitude(phase);
+                    console.log('🏔 cameraAltitude: ', cameraAltitude);
 
                     // set the position and altitude of the camera
                     camera.position = mapboxgl.MercatorCoordinate.fromLngLat({
@@ -305,7 +323,7 @@
                         lng: alongRoute[0],
                         lat: alongRoute[1]
                     });
-
+                    console.log('Camera: ', camera);
 
                     map.setFreeCameraOptions(camera);
 

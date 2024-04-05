@@ -2,6 +2,8 @@ import os
 
 from os.path import isfile, join, isdir, dirname, abspath
 from os import listdir
+
+import geopy
 import gpxpy
 import gpxpy.gpx
 
@@ -148,3 +150,16 @@ const $variable = $jsdata;
 
     utils.write_file(file, text_data)
 
+
+def get_distance(points = []):
+    total = 0
+
+    for idx, point in enumerate(points):
+        if idx == 0:
+            continue
+        coords_1 = (points[idx - 1][0], points[idx - 1][1])
+        coords_2 = (points[idx][0], points[idx][1])
+
+        dist = geopy.distance.geodesic(coords_1, coords_2).m
+        total += dist
+    return total
