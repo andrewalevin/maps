@@ -300,10 +300,6 @@
                     ).geometry.coordinates;
 
 
-
-                    console.log('🥦 alongRoute : ', alongRoute);
-
-
                     const camera = map.getFreeCameraOptions();
 
                     let cameraAltitude = window[stage2.camera.altitude_function](
@@ -321,9 +317,20 @@
                     // tell the camera to look at a point along the route
                     camera.lookAtPoint({
                         lng: alongRoute[0],
-                        lat: alongRoute[1]
+                        lat: alongRoute[1],
                     });
+
+
+                    const dist = turf.distance(alongCamera, alongRoute);
+                    const alt = cameraAltitude / 1000;
+                    const tn = Math.atan(dist / alt);
+                    const grad = tn * 57.2958;
+                    console.log('📐 dist', dist, ' alt: ', alt, ' tn: ', tn, ' grad: ', grad);
+                    camera.setPitchBearing(grad, 0);
+
+
                     console.log('Camera: ', camera);
+
 
                     map.setFreeCameraOptions(camera);
 

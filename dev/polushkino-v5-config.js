@@ -12,12 +12,17 @@ const bearingMap =  240;
 
 const rangeFog = [-0.5, 2];
 
-const animationDuration = 10000;
+const animationDuration = 5000;
 
 const getAltitude = tan;
 
 function linear(x, high=900000, low=300000) {
     return high * (1 - x) + low
+}
+
+
+function atan(x, high=900000, low=300000) {
+    return  ((low - high) * Math.atan(x - 0.5) / (2 * Math.atan(0.5))) + (high + low) / 2
 }
 
 function descend(x, high=900000, low=300000) {
