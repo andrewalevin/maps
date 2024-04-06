@@ -21,10 +21,13 @@
     <script src="polushkino-v5-config.js"></script>
 
 
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-camera.js"></script>
 
 
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-target.js"></script>
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-camera.js-"></script>
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-target.js-"></script>
+
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/stage2.js"></script>
 
     <style>
         body {
@@ -86,8 +89,7 @@
 
     <script>
         console.log('🚀 Start Script');
-        console.log('🚀 cameraCoordinates', cameraCoordinates);
-        console.log('🚀 targetCoordinates', targetCoordinates);
+        console.log('🚀 stage', stage2);
         console.log('');
 
         //mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
@@ -222,8 +224,8 @@
             //const cameraRoute = routes.camera;
 
 
-            const targetRoute = targetCoordinates;
-            const cameraRoute = cameraCoordinates;
+            const targetRoute = stage2.target.route;
+            const cameraRoute = stage2.camera.route;
 
             const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
             const cameraRouteDistance = turf.lineDistance(turf.lineString(cameraRoute));
@@ -304,10 +306,8 @@
 
                     const camera = map.getFreeCameraOptions();
 
-
-
-
-                    let cameraAltitude = getAltitude(phase);
+                    let cameraAltitude = window[stage2.camera.altitude_function](
+                        phase, stage2.camera.altitude[0], stage2.camera.altitude[1]);
                     console.log('🏔 cameraAltitude: ', cameraAltitude);
 
                     // set the position and altitude of the camera
