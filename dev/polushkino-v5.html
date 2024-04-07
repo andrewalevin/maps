@@ -27,7 +27,17 @@
     <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-target.js-"></script>
 
 
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/stage2.js"></script>
+
+
+
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage1.js"></script>
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage2.js"></script>
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage3.js"></script>
+
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage4.js"></script>
 
     <style>
         body {
@@ -61,10 +71,7 @@
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            padding: 10px;
-            z-index: 1;
-            color: #111;
-            background-color: rgb(128 128 128 / 50%);
+            z-index: 10;
             padding: .75rem;
             border: none;
             border-radius: 5px;
@@ -72,11 +79,61 @@
             font-size: 1rem;
             font-weight: 200;
             color: #222;
-            background-color: rgb(231 231 231 / 10%);
+            background-color: #eeeeee50;
             font-size: 1rem;
             font-weight: 100;
             min-width: 6rem;
             backdrop-filter: blur(1rem);
+        }
+        
+        #explore-map {
+            display: none;
+            position: absolute;
+            bottom: 6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            padding: .75rem;
+            color: #ccc;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-weight: 200;
+            font-size: 1.25rem;
+            font-weight: 100;
+        }
+        
+        #explore-map a {
+            color: inherit;
+            font-family: inherit;
+            font-weight: 200;
+            text-decoration: none;
+            border: none;
+            border-bottom: .075rem solid transparent;
+            padding-bottom: .5rem;
+        }
+        
+        #explore-map a:hover {
+            text-decoration: none;
+            border-color: inherit;
+        }
+        
+        #gradient {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 14rem;
+            width: 100%;
+            z-index: 1;
+            background: rgb(2, 0, 36);
+            background: linear-gradient(0deg, rgb(0 0 0 / 60%) 0%, rgb(0 0 0 / 30%) 50%, rgba(0, 0, 0, 0) 100%)
+        }
+        
+        .show {
+            display: block!important;
+        }
+        
+        .button-light {
+            background-color: #eeeeee90!important;
         }
     </style>
 </head>
@@ -85,11 +142,16 @@
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <div id="map"></div>
 
+    <div id="gradient"></div>
+    <div id="explore-map">
+        <p style="text-align: center;">Explore the Map</p>
+        <p style="text-align: center;"><a class="link-danger" href="https://andrewalevin.github.io/maps">https://andrewalevin.github.io/maps/zvenigorod</a></p>
+    </div>
+
     <button id="pauseButton">Pause</button>
 
     <script>
         console.log('🚀 Start Script');
-        console.log('🚀 stage', stage2);
         console.log('');
 
         //mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
@@ -206,7 +268,6 @@
             await map.once('idle');
 
             // The total animation duration, in milliseconds
-            //const animationDuration = 50000;
 
             // Use the https://turfjs.org/ library to calculate line distances and
             // sample the line at a given percentage with the turf.along function.
@@ -215,42 +276,88 @@
             const pathDistance = turf.lineDistance(path);
 
 
-            let totalDistance = 0;
+            let distanceCalculator = 0;
             let lastPoint = null;
 
 
-            // ZVENIGOROD-CAMERA
-            //const targetRoute = routes.target;
-            //const cameraRoute = routes.camera;
+            let stages = [
+                //stage1,
+                //stage2,
+                //stage3,
+                stage4
+            ];
 
+            for (const idx in stages) {
+                stages[idx].target.distance = turf.lineDistance(turf.lineString(stages[idx].target.route));
+                stages[idx].camera.distance = turf.lineDistance(turf.lineString(stages[idx].camera.route));
+            }
 
-            const targetRoute = stage2.target.route;
-            const cameraRoute = stage2.camera.route;
+            let totalDistanceTarget = 0;
+            for (let idx in stages) totalDistanceTarget += stages[idx].target.distance;
 
-            const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
-            const cameraRouteDistance = turf.lineDistance(turf.lineString(cameraRoute));
-
-            console.log('🥦 routeDistance: ', routeDistance);
+            let totalDistanceCamera = 0;
+            for (let idx in stages) totalDistanceTarget += stages[idx].camera.distance;
 
             let lastTime = 0;
             let totalTime = 0;
 
+            let stageIndex = 0;
+            let stageTime = 0;
+
+            function makeAtTheEnd() {
+                var gradient = document.getElementById('gradient');
+                gradient.classList.add("show");
+
+                var exploreBlock = document.getElementById('explore-map');
+                exploreBlock.classList.add("show");
+
+                var pauseButton = document.getElementById('pauseButton');
+                pauseButton.textContent = 'Restart';
+                pauseButton.classList.add('button-light');
+                pauseButton.addEventListener('click', function() {
+                    window.location.reload();
+                });
+
+            }
+
             function frame(time) {
 
-
-
                 if (!isPaused) {
-                    totalTime += (time - lastTime);
-                    const phase = totalTime / animationDuration;
-                    if (phase > 1) {
-                        return;
+                    const deltaTime = time - lastTime;
+                    totalTime += deltaTime;
+                    stageTime += deltaTime;
+
+                    if (stageTime > stages[stageIndex].duration) {
+                        if (stageIndex == stages.length - 1) {
+
+                            makeAtTheEnd();
+
+
+                            console.log('');
+                            console.log('');
+                            console.log('🔥 Last Stage. Bye!');
+                            return;
+                        }
+                        console.log('');
+                        console.log('');
+                        console.log('');
+                        console.log('🦑🦑🦑 Switch stage!');
+
+                        stageIndex++;
+                        stageTime = deltaTime;
+
                     }
-                    console.log('🐝 Time: ', time, 'phase: ', phase);
+
+                    stage = stages[stageIndex];
+
+                    const phase = stageTime / stage.duration;
+
+                    console.log('🐝 Time: ', time);
+                    console.log('🎞 stageIndex: ', stageIndex, '⏳ stageTime', stageTime, 'phase: ', phase);
 
 
                     // Get the new latitude and longitude by sampling along the path
-                    const alongPath = turf.along(path, pathDistance * phase)
-                        .geometry.coordinates;
+                    const alongPath = turf.along(path, pathDistance * phase).geometry.coordinates;
                     const lngLat = {
                         lng: alongPath[0],
                         lat: alongPath[1]
@@ -265,13 +372,6 @@
                         })
                     );
 
-                    if (lastPoint)
-                        totalDistance += turf.distance(turf.point(lastPoint), turf.point(alongPath), {
-                            units: 'kilometers'
-                        });
-                    lastPoint = alongPath;
-
-
 
                     // Reduce the visible length of the line by using a line-gradient to cutoff the line
                     // phase is a value between 0 and 1 that reprents the progress of the animation
@@ -282,28 +382,22 @@
                         'rgba(255, 0, 0, 0)'
                     ]);
 
-                    // Rotate the camera at a slightly lower speed to give some parallax effect in the background
-                    //const rotation = 150 - phase * 40.0;
-                    //map.setBearing(rotation % 360 + 90);
-
-
-                    // CAMERA
-
-                    const alongRoute = turf.along(
-                        turf.lineString(targetRoute),
-                        routeDistance * phase
+                    const alongTarget = turf.along(
+                        turf.lineString(stage.target.route),
+                        stage.target.distance * phase
                     ).geometry.coordinates;
 
                     const alongCamera = turf.along(
-                        turf.lineString(cameraRoute),
-                        cameraRouteDistance * phase
+                        turf.lineString(stage.camera.route),
+                        stage.camera.distance * phase
                     ).geometry.coordinates;
 
 
                     const camera = map.getFreeCameraOptions();
 
-                    let cameraAltitude = window[stage2.camera.altitude_function](
-                        phase, stage2.camera.altitude[0], stage2.camera.altitude[1]);
+                    // Calculate Altitude descend usnong Custom Function
+                    let cameraAltitude = window[stage.camera.altitude_function](
+                        phase, stage.camera.altitude[0], stage.camera.altitude[1]);
                     console.log('🏔 cameraAltitude: ', cameraAltitude);
 
                     // set the position and altitude of the camera
@@ -316,37 +410,50 @@
 
                     // tell the camera to look at a point along the route
                     camera.lookAtPoint({
-                        lng: alongRoute[0],
-                        lat: alongRoute[1],
+                        lng: alongTarget[0],
+                        lat: alongTarget[1],
                     });
 
 
-                    const dist = turf.distance(alongCamera, alongRoute);
-                    const alt = cameraAltitude / 1000;
-                    const tn = Math.atan(dist / alt);
-                    const grad = tn * 57.2958;
-                    console.log('📐 dist', dist, ' alt: ', alt, ' tn: ', tn, ' grad: ', grad);
-                    camera.setPitchBearing(grad, 0);
+                    if (stage.camera.isSetPitchBearing) {
+                        let pitchValue = 0;
+                        let bearingValue = 0;
 
+                        if (stage.camera.bearing)
+                            pitchValue = stage2.camera.bearing
 
-                    console.log('Camera: ', camera);
-
+                        if (stage.camera.pitch)
+                            pitchValue = stage.camera.pitch
+                        else {
+                            const altitudeKm = cameraAltitude / 1000;
+                            const pitchRadians = Math.atan(turf.distance(alongCamera, alongTarget) / altitudeKm);
+                            // Convert to Gradus
+                            pitchValue = pitchRadians * 57.2958;
+                        }
+                        camera.setPitchBearing(pitchValue, bearingValue);
+                    }
 
                     map.setFreeCameraOptions(camera);
 
-                    // Update the popup altitude value and marker location
-                    popup.setHTML(Math.trunc(totalDistance) + ' km<br/>');
-                    //console.log(lngLat);
                     marker.setLngLat(lngLat);
 
+                    if (lastPoint)
+                        distanceCalculator += turf.distance(turf.point(lastPoint), turf.point(alongPath), {
+                            units: 'kilometers'
+                        });
+                    lastPoint = alongPath;
+                    // Update the popup altitude value and marker location
+                    popup.setHTML(Math.trunc(distanceCalculator) + ' km<br/>');
                 }
 
                 lastTime = time;
+
+
+
                 window.requestAnimationFrame(frame);
 
             }
             window.requestAnimationFrame(frame);
-
 
         })();
     </script>

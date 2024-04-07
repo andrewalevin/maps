@@ -163,3 +163,59 @@ def get_distance(points = []):
         dist = geopy.distance.geodesic(coords_1, coords_2).m
         total += dist
     return total
+
+
+def export_js_v5(name, stage_name='stage0', data='', output_root='data-output', ):
+    export_js_template = string.Template('''
+const $varname = $jsdata;
+''')
+    tag = string.Template('''<script src="$path"></script>''')
+
+    root = pathlib.Path(output_root)
+    designed_name = f'{name}-{stage_name}'
+    file = root.joinpath(f'{designed_name}.js')
+    text_data = export_js_template.substitute(
+        varname=stage_name,
+        jsdata=json.dumps(data, indent=4)
+    )
+    print('🚀 Export. Path and Variable: ')
+    print(file.resolve().relative_to(file.resolve().parent.parent.parent.parent))
+    print()
+
+
+    remote_path = f'https://andrewalevin.github.io/{file.resolve().relative_to(file.resolve().parent.parent.parent.parent)}'
+    print(tag.substitute(path=remote_path))
+    print()
+
+    print(tag.substitute(path=file.resolve()))
+    print()
+
+    utils.write_file(file, text_data)
+
+
+import geopy.distance
+
+
+def get_rhombus_path(rounds=1, center=None, delta=0.0001):
+    if center is None:
+        center = [55.751426, 37.618879]
+    rhombus_points = [
+        (center[0] - delta, center[1]),
+        (center[0], center[1] + delta),
+        (center[0] + delta, center[1]),
+        (center[0], center[1] - delta),
+    ]
+
+    points = []
+    for round in range(rounds):
+        points += rhombus_points
+
+    segemnet_distance = get_distance([rhombus_points[0], rhombus_points[1]])
+    total_distance = int(4. * segemnet_distance * rounds - 1.)
+    print('📐 total_distance: ', total_distance, 'meters')
+
+    return points2gdf(points)
+
+
+def reverse_coords(coords):
+    return [(c[1], c[0]) for c in coords]

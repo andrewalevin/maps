@@ -227,6 +227,7 @@
                     lat: alongPath[1]
                 };
 
+
                 // Sample the terrain elevation. We round to an integer value to
                 // prevent showing a lot of digits during the animation
                 const elevation = Math.floor(
@@ -280,11 +281,14 @@
                     cameraAltitude
                 );
 
+                console.log('alongCamera: ', alongCamera, 'cameraAltitude: ', cameraAltitude);
+
                 // tell the camera to look at a point along the route
                 camera.lookAtPoint({
                     lng: alongRoute[0],
                     lat: alongRoute[1]
                 });
+                console.log('alongRoute: ', alongRoute);
 
 
                 map.setFreeCameraOptions(camera);

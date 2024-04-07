@@ -1,5 +1,5 @@
 
-const stage2 = {
+const gigerevo = {
     "duration": 5000,
     "camera": {
         "route": [

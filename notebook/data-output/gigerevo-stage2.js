@@ -1,6 +1,6 @@
 
 const stage2 = {
-    "duration": 5000,
+    "duration": 4000,
     "camera": {
         "route": [
             [
