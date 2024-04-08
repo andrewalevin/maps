@@ -14,7 +14,7 @@ try{
 }
 
 if (centerCustom){
-  centerMapDefault = centerCustom;
+  centerMapDefault = centerMapCustom;
 }
 
 
