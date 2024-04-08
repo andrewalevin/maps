@@ -6,19 +6,11 @@ const URL_ROOT =  '';
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
 
-let centerMapCustom = centerMap ?? [37.61, 55.75];
-
-let styleMapCustom = styleMap ?? 'mapbox://styles/mapbox/outdoors-v12';
-
-let zoomMapCustom = zoomMap ?? 11;
-
-
-
 const map = new mapboxgl.Map({
   container: 'map',
-  center: centerMapDefault,
-  zoom: zoomMapDefault,
-  style: styleMapDefault,
+  center: centerMap ?? [37.61, 55.75],
+  zoom: zoomMap ?? 11,
+  style: styleMap ?? 'mapbox://styles/mapbox/outdoors-v12',
 });
 
 
