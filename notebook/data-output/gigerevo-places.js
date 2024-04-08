@@ -80,7 +80,7 @@ const places = [{
 {
     'name': 'Захарово усадьба',
     'point': [55.646115, 36.969831],
-    'thumbnail': 'n.png'
+    'thumbnail': 'zaharovo.png'
 },
 {
     'name': 'Большие Вяземы усадьба>',
