@@ -3,4 +3,4 @@ moscow/imgs 220
 moscow-cofeshops/imgs 100
 moscow-cofeshops/imgs 220
 zvenigorod/imgs 100
-zvenigorod/imgs 200
+zvenigorod/imgs 220
