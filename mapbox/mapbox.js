@@ -19,7 +19,7 @@ if (centerCustom){
 
 
 
-const styleMapDefault = 'mapbox://styles/andrewlevin/clthwxvvg002h01qo40y1e99g';
+const styleMapDefault = 'mapbox://styles/mapbox/outdoors-v12';
 try{
   styleMapCustom = styleMap;
 } catch (e) {
