@@ -218,4 +218,37 @@ def get_rhombus_path(rounds=1, center=None, delta=0.0001):
 
 
 def reverse_coords(coords):
-    return [(c[1], c[0]) for c in coords]
+    return [[c[1], c[0]] for c in coords]
+
+
+def gdf2bounds(gdf):
+    return gdf.geometry.iloc[0].bounds
+
+
+def round_items(items, count):
+    return [[round(sub_item, count) for sub_item in item] for item in items]
+
+
+def round1(items):
+    return round_items(items, 1)
+
+
+def round2(items):
+    return round_items(items, 2)
+
+
+def round3(items):
+    return round_items(items, 3)
+
+
+def round4(items):
+    return round_items(items, 4)
+
+
+def round5(items):
+    return round_items(items, 5)
+
+
+def round6(items):
+    return round_items(items, 6)
+

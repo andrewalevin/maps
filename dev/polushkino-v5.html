@@ -8,34 +8,15 @@
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
 
-    <script src="https://andrewalevin.github.io/maps/dev/routes-zvenigorod.js-"></script>
-
-
-    <script src="https://andrewalevin.github.io/maps/notebook/data-output/zvenigorod-camera-1712171569.js"></script>
-
-
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-camera.js-"></script>
-
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr-target.js-"></script>
 
     <script src="polushkino-v5-config.js"></script>
-
-
-
-
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-camera.js-"></script>
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/mskappr1one-target.js-"></script>
-
-
-
-
 
 
     <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage1.js"></script>
 
     <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage2.js"></script>
 
-    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage3.js"></script>
+    <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stagemain.js"></script>
 
     <script src="/Users/andrewlevin/Desktop/maps/notebook/data-output/gigerevo-stage4.js"></script>
 
@@ -99,6 +80,7 @@
             font-weight: 200;
             font-size: 1.25rem;
             font-weight: 100;
+            letter-spacing: 0.05rem;
         }
         
         #explore-map a {
@@ -134,6 +116,18 @@
         
         .button-light {
             background-color: #eeeeee90!important;
+        }
+        
+        .marker {
+            background-image: url(mapbox-icon.png);
+            background-size: cover;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+            border: 2px solid white;
+            margin-top: -2rem;
         }
     </style>
 </head>
@@ -203,7 +197,7 @@
                 fetch(
                     geojson
                 ).then((response) => response.json()),
-                map.once('style.load')
+
             ]);
 
             // Set custom fog
@@ -226,18 +220,27 @@
                 'exaggeration': 1.5
             });
 
-            const pinRoute = pinRouteGeojson.features[0].geometry.coordinates;
+            const pinRoute000 = pinRouteGeojson.features[0].geometry.coordinates;
+
+            console.log('STAGE: ', stagemain);
+
+            const pinRoute = stagemain.route.path;
 
             // Create the marker and popup that will display the elevation queries
             const popup = new mapboxgl.Popup({
                 closeButton: false
             });
+            const markerHeight = 50;
+            const markerRadius = 10;
+            const linearOffset = 25;
             const marker = new mapboxgl.Marker({
                     color: 'red',
                     scale: 0.8,
                     draggable: false,
                     pitchAlignment: 'auto',
-                    rotationAlignment: 'auto'
+                    rotationAlignment: 'auto',
+
+
                 })
                 .setLngLat(pinRoute[0])
                 .setPopup(popup)
@@ -283,13 +286,13 @@
             let stages = [
                 //stage1,
                 //stage2,
-                //stage3,
+                stagemain,
                 stage4
             ];
 
             for (const idx in stages) {
-                stages[idx].target.distance = turf.lineDistance(turf.lineString(stages[idx].target.route));
-                stages[idx].camera.distance = turf.lineDistance(turf.lineString(stages[idx].camera.route));
+                stages[idx].target.distance = turf.lineDistance(turf.lineString(stages[idx].target.path));
+                stages[idx].camera.distance = turf.lineDistance(turf.lineString(stages[idx].camera.path));
             }
 
             let totalDistanceTarget = 0;
@@ -319,6 +322,40 @@
                 });
 
             }
+
+
+            function addPopup(map) {
+                const item = {
+                    'coordinates': '55.640762, 36.582184',
+                    'title': 'Title',
+                    'description': 'zvenigorod-biostation-220px.png'
+                }
+
+                const elem = document.createElement('div');
+                const radius = 50;
+                elem.className = 'marker';
+                elem.style.width = `${radius}px`;
+                elem.style.height = `${radius}px`;
+
+
+                let img_content = '';
+                elem.style.backgroundImage = `url("file:///Users/andrewlevin/Desktop/maps/dev/zvenigorod-biostation-220px.png")`;
+                img_content = `<img loading="lazy" src="file:///Users/andrewlevin/Desktop/maps/dev/zvenigorod-biostation-220px.png"/>`;
+
+                new mapboxgl.Marker(elem)
+                    .setLngLat([36.599121, 55.602060])
+                    .setPopup(
+                        new mapboxgl.Popup({
+                            offset: 25
+                        })
+                        .setHTML(
+                            `<div class="popup"><h3>${item.title}</h3>
+                        <p>${img_content}</p></div>`
+                        )
+                    )
+                    .addTo(map);
+            }
+            addPopup(map);
 
             function frame(time) {
 
@@ -383,12 +420,12 @@
                     ]);
 
                     const alongTarget = turf.along(
-                        turf.lineString(stage.target.route),
+                        turf.lineString(stage.target.path),
                         stage.target.distance * phase
                     ).geometry.coordinates;
 
                     const alongCamera = turf.along(
-                        turf.lineString(stage.camera.route),
+                        turf.lineString(stage.camera.path),
                         stage.camera.distance * phase
                     ).geometry.coordinates;
 
