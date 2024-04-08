@@ -5,11 +5,52 @@ const URL_ROOT =  '';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
+
+const centerMapDefault = [37.61, 55.75];
+try{
+  centerMapCustom = centerMap;
+} catch (e) {
+  logMyErrors(e);
+}
+
+if (centerCustom){
+  centerMapDefault = centerCustom;
+}
+
+
+
+const styleMapDefault = 'mapbox://styles/andrewlevin/clthwxvvg002h01qo40y1e99g';
+try{
+  styleMapCustom = styleMap;
+} catch (e) {
+  logMyErrors(e);
+}
+
+if (styleMapCustom){
+  styleMapDefault = styleMapCustom;
+}
+
+
+
+const zoomMapDefault = 11;
+try{
+  zoomMapCustom = zoomMap;
+} catch (e) {
+  logMyErrors(e);
+}
+
+if (zoomMapCustom){
+  zoomMapDefault = zoomMapCustom;
+}
+
+
+
+
 const map = new mapboxgl.Map({
   container: 'map',
-  center: [37.61, 55.75],
-  zoom: 11,
-  style: 'mapbox://styles/andrewlevin/clthwxvvg002h01qo40y1e99g',
+  center: centerMapDefault,
+  zoom: zoomMapDefault,
+  style: styleMapDefault,
 });
 
 
