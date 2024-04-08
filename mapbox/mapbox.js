@@ -13,7 +13,7 @@ try{
   logMyErrors(e);
 }
 
-if (centerCustom){
+if (centerMapCustom){
   centerMapDefault = centerMapCustom;
 }
 
