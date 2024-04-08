@@ -8,7 +8,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvc
 
 let centerMapDefault = [37.61, 55.75];
 try{
-  centerMapCustom = centerMap;
+  let centerMapCustom = centerMap;
 } catch (e) {
   logMyErrors(e);
 }
@@ -21,7 +21,7 @@ if (centerMapCustom){
 
 let styleMapDefault = 'mapbox://styles/mapbox/outdoors-v12';
 try{
-  styleMapCustom = styleMap;
+  let styleMapCustom = styleMap;
 } catch (e) {
   logMyErrors(e);
 }
@@ -34,7 +34,7 @@ if (styleMapCustom){
 
 let zoomMapDefault = 11;
 try{
-  zoomMapCustom = zoomMap;
+  let zoomMapCustom = zoomMap;
 } catch (e) {
   logMyErrors(e);
 }
