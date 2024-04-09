@@ -85,7 +85,7 @@ function mapProcess(data) {
   }
 }
 
-
+let radiusFunctionCustom = null;
 const getRadiusFunction = radiusFunctionCustom ?? getRadius;
 
 map.on('zoom', () => {
