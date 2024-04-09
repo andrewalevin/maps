@@ -75,7 +75,7 @@ function mapProcess(data) {
         })
         .setHTML(
           `<div class="popup"><h3>${item.title}</h3>
-          <p>${img_content}${description}</p></div>`
+          <div class="popup-img-container">${img_content}${description}</div></div>`
         )
       )
       .addTo(map);
