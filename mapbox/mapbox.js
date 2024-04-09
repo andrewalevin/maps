@@ -85,11 +85,9 @@ function mapProcess(data) {
   }
 }
 
-let radiusFunctionCustom = null;
-const getRadiusFunction = radiusFunctionCustom ?? getRadius;
 
 map.on('zoom', () => {
-  const radius = getRadiusFunction(map.getZoom());
+  const radius = getRadius(map.getZoom());
 
   for (const elem of document.getElementsByClassName("marker")) {
     elem.style.width = `${radius}px`;
