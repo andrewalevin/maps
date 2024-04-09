@@ -44,13 +44,6 @@
         const styleMap = 'mapbox://styles/andrewlevin/clurjvodg013d01pe0fqncusu';
         const centerMap = [36.717964, 55.681699];
         const zoomMap = 10;
-
-        function radiusFunctionCustom(zoom) {
-            let radius = 12 * (zoom - 9);
-            if (radius < 10)
-                radius = 15;
-            return radius.toFixed(0)
-        }
     </script>
 
 </head>
@@ -61,6 +54,30 @@
     <script src="/maps/mapbox/js-yaml.min.js"></script>
     <script src="/maps/mapbox/mapbox.js"></script>
 
+    <script src="route.js"></script>
+
+
+    <script>
+        map.addLayer({
+            id: 'route',
+            type: 'line',
+            source: {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    geometry: route
+                }
+            },
+            layout: {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            paint: {
+                'line-color': '#007bff',
+                'line-width': 8
+            }
+        });
+    </script>
 </body>
 
 </html>
