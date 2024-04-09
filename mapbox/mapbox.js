@@ -74,8 +74,11 @@ function mapProcess(data) {
             offset: 25
         })
         .setHTML(
-          `<div class="popup"><h3>${item.title}</h3>
-          <div class="popup-img-container">${img_content}${description}</div></div>`
+          `<div class="popup">
+           <h3>${item.title}</h3>
+           <div class="popup-img-container">${img_content}</div>
+           <p>${description}</p>
+          </div>`
         )
       )
       .addTo(map);
