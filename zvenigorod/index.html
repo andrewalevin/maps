@@ -58,6 +58,23 @@
 
 
     <script>
+        map.addSource('routeSource', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': [
+                        [-122.48369693756104, 37.83381888486939],
+                        [-122.48348236083984, 37.83317489144141],
+                        [-122.48339653015138, 37.83270036637107]
+                    ]
+                }
+            }
+        });
+
+
         map.addLayer({
             id: 'route',
             type: 'line',
@@ -65,7 +82,10 @@
                 type: 'geojson',
                 data: {
                     type: 'Feature',
-                    geometry: route
+                    geometry: {
+                        'type': 'LineString',
+                        'coordinates': route
+                    }
                 }
             },
             layout: {
