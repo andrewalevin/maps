@@ -44,6 +44,13 @@
         const styleMap = 'mapbox://styles/andrewlevin/clurjvodg013d01pe0fqncusu';
         const centerMap = [36.717964, 55.681699];
         const zoomMap = 10;
+
+        function radiusFunctionCustom(zoom) {
+            let radius = 12 * (zoom - 9);
+            if (radius < 10)
+                radius = 15;
+            return radius.toFixed(0)
+        }
     </script>
 
 </head>
