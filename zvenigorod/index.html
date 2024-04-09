@@ -75,27 +75,32 @@
         });
 
 
-        map.addLayer({
-            id: 'route',
-            type: 'line',
-            source: {
-                type: 'geojson',
-                data: {
-                    type: 'Feature',
-                    geometry: {
+
+        map.on('load', () => {
+            map.addSource('route', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'Feature',
+                    'properties': {},
+                    'geometry': {
                         'type': 'LineString',
-                        'coordinates': route
+                        'coordinates': route,
                     }
                 }
-            },
-            layout: {
-                'line-join': 'round',
-                'line-cap': 'round'
-            },
-            paint: {
-                'line-color': 'rgba(255,0,0)',
-                'line-width': 5
-            }
+            });
+            map.addLayer({
+                'id': 'route',
+                'type': 'line',
+                'source': 'route',
+                'layout': {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                'paint': {
+                    'line-color': 'red',
+                    'line-width': 8
+                }
+            });
         });
     </script>
 </body>
