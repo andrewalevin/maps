@@ -12,10 +12,11 @@
 
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 
-    <link href="/maps/mapbox/style.css" rel="stylesheet">
+
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
 
+    <link href="../mapbox/style.css" rel="stylesheet">
 
     <style>
         .mapboxgl-marker {
@@ -40,60 +41,98 @@
             margin: auto;
         }
     </style>
-    <script>
-        const styleMap = 'mapbox://styles/andrewlevin/clurjvodg013d01pe0fqncusu';
-        const centerMap = [36.717964, 55.681699];
-        const zoomMap = 10;
-    </script>
 
 </head>
 
 <body>
     <div id="map"></div>
 
-    <script src="/maps/mapbox/js-yaml.min.js"></script>
-    <script src="/maps/mapbox/mapbox.js"></script>
+    <script src="../mapbox/mapbox-config.js"></script>
 
-    <script src="route.js"></script>
+    <script>
+        config.map.center = [36.717964, 55.681699];
+        config.map.style = 'mapbox://styles/andrewlevin/clurjvodg013d01pe0fqncusu';
+        config.map.zoom = 10;
+    </script>
 
+
+    <script src="../mapbox/js-yaml.min.js"></script>
+
+    <script src="../mapbox/mapbox.js"></script>
+
+
+    <script src="route-polushkino.js"></script>
+    <script src="route-sima.js"></script>
+    <script src="route-mars.js"></script>
+    <script src="route-kubinka.js"></script>
+    <script src="route-chapaevka.js"></script>
+    <script src="route-sanatornaya.js"></script>
+    <script src="route-tuchkovo.js"></script>
+    <script src="route-gorodok.js"></script>
+    <script src="route-uspenskoe.js"></script>
+    <script src="route-zaharovo.js"></script>
 
 
     <script>
-        const geojson = {
-            'type': 'FeatureCollection',
-            'features': [{
-                'type': 'Feature',
-                'properties': {},
-                'geometry': {
-                    'coordinates': route,
-                    'type': 'LineString'
-                }
-            }]
-        };
+        //  Draw Routes 
+        //  https://onthegomap.com/
+
+        /*
+
+        Good Colors:
+
+        Yellow:
+
+            Желтая сера
+            #EDFF21
+
+            Золотой (Золотистый)
+            #FFD700
+
+            Лимонный
+            #FDE910
+
+            Рапсово-желтый
+            #F3DA0B
+
+            Шафрановый
+            #F4C430
+
+        Ярко-розовый
+            Ярко-розовый
+            #FC0FC0
+
+
+            Модная фуксия
+            #F400A1
+
+        Ярко-бирюзовый
+            #08E8DE
+
+        Мандариновый
+            #FF8800
+        */
 
         map.on('load', () => {
-            // 'line-gradient' can only be used with GeoJSON sources
-            // and the source must have the 'lineMetrics' option set to true
-            map.addSource('line', {
-                type: 'geojson',
-                lineMetrics: true,
-                data: geojson
-            });
 
-            // the layer must be of type 'line'
-            map.addLayer({
-                type: 'line',
-                source: 'line',
-                id: 'line',
-                paint: {
-                    'line-color': 'red',
-                    'line-width': 4,
-                },
-                layout: {
-                    'line-cap': 'round',
-                    'line-join': 'round'
-                }
-            });
+            mapAddLayer(map, 'kubinka', kubinka.route.path, '#EDFF21');
+
+            mapAddLayer(map, 'chapaevka', chapaevka.route.path, 'limegreen');
+
+            mapAddLayer(map, 'sanatornaya', sanatornaya.route.path, 'limegreen');
+
+            mapAddLayer(map, 'tuchkovo', tuchkovo.route.path, 'limegreen');
+
+            mapAddLayer(map, 'gorodok', gorodok.route.path, 'limegreen');
+
+            mapAddLayer(map, 'zaharovo', zaharovo.route.path, 'red');
+
+            mapAddLayer(map, 'uspenskoe', uspenskoe.route.path, '#007FFF');
+
+            mapAddLayer(map, 'mars', mars.route.path, 'fuchsia');
+
+            mapAddLayer(map, 'polushkino', polushkino.route.path, 'red');
+
         });
     </script>
 </body>
