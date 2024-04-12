@@ -50,10 +50,10 @@ function mapProcess(data) {
     let img_content = '';
     if (item.thumbnail){
       const parts = item.thumbnail.split('.')
-      const filename = `${URL_ROOT}imgs/${parts[0]}-100px.${parts[1]}`;
+      const filename = `imgs/${parts[0]}-100px.${parts[1]}`;
       elem.style.backgroundImage = `url(\'${filename }\')`;
       
-      const img_url = `${URL_ROOT}imgs/${parts[0]}-220px.${parts[1]}`;
+      const img_url = `imgs/${parts[0]}-220px.${parts[1]}`;
       img_content = `<img loading="lazy" src="${img_url}"/>`;
     }
 
