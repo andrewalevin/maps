@@ -39,7 +39,8 @@ def parseActivityDataInGpxData(gpx=None):
                 # point.append(point.time)
                 point.append(float(point_item.latitude))
                 point.append(float(point_item.longitude))
-                point.append(float(point_item.elevation))
+                if point_item.elevation:
+                    point.append(float(point_item.elevation))
                 points.append(point)
             segment['points'] = points
             segments.append(segment)

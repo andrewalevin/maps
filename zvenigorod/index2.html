@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>🗺 Moscow</title>
+    <meta property="og:title" content="🗺 Zvenigorod Map" />
+    <meta property="og:description" content="Route from Polushkinot ot Zvenigorod throw Moacow river vallay." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/maps/zvenigorod/" />
+    <meta property="og:image" content="/maps/zvenigorod/preview.png" />
+
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
+
+    <link href="/Users/andrewlevin/Desktop/maps/mapbox/style.css" rel="stylesheet">
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+
+    <script>
+        const styleMap = 'mapbox://styles/andrewlevin/clurjvodg013d01pe0fqncusu';
+        const centerMap = [36.717964, 55.681699];
+        const zoomMap = 10;
+    </script>
+
+    <style>
+        .mapboxgl-marker {
+            border: 1px solid #eeeeee;
+        }
+        
+        .popup-img-container {
+            width: 220px;
+            height: 220px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script src="/maps/mapbox/js-yaml.min.js"></script>
+    <script src="/maps/mapbox/mapbox.js"></script>
+
+    <script src="/Users/andrewlevin/Desktop/maps/mapbox/js-yaml.min.js"></script>
+    <script src="/Users/andrewlevin/Desktop/maps/mapbox/mapbox.js"></script>
+
+
+    <script src="route-polushkino.js"></script>
+    <script src="route-kubinka.js"></script>
+    <script src="route-mars.js"></script>
+    <script src="route-chapaevka.js"></script>
+    <script src="route-gorodok.js"></script>
+    <script src="route-sanatornaya.js"></script>
+    <script src="route-uspenskoe.js"></script>
+    <script src="route-zaharovo.js"></script>
+
+
+    <script>
+        //  Draw Routes 
+        //  https://onthegomap.com/
+
+        /*
+
+        Good Colors:
+
+        Yellow:
+
+            Желтая сера
+            #EDFF21
+
+            Золотой (Золотистый)
+            #FFD700
+
+            Лимонный
+            #FDE910
+
+            Рапсово-желтый
+            #F3DA0B
+
+            Шафрановый
+            #F4C430
+
+        Ярко-розовый
+            Ярко-розовый
+            #FC0FC0
+
+
+            Модная фуксия
+            #F400A1
+
+        Ярко-бирюзовый
+            #08E8DE
+
+        Мандариновый
+            #FF8800
+        */
+
+        map.on('load', () => {
+
+            mapAddLayer(map, 'kubinka', kubinka.route.path, '#EDFF21');
+
+            mapAddLayer(map, 'chapaevka', chapaevka.route.path, 'limegreen');
+
+            mapAddLayer(map, 'sanatornaya', sanatornaya.route.path, 'limegreen');
+
+            mapAddLayer(map, 'gorodok', gorodok.route.path, 'limegreen');
+
+            mapAddLayer(map, 'zaharovo', zaharovo.route.path, 'red');
+
+            mapAddLayer(map, 'uspenskoe', uspenskoe.route.path, '#007FFF');
+
+            mapAddLayer(map, 'mars', mars.route.path, 'fuchsia');
+
+            mapAddLayer(map, 'polushkino', polushkino.route.path, 'red');
+
+        });
+    </script>
+</body>
+
+</html>

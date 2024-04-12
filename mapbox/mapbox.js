@@ -97,6 +97,37 @@ map.on('zoom', () => {
 
 
 
+function mapAddLayer(_map, _id, coordinates, color = 'red', width = 4) {
+  _map.addLayer({
+      id: _id,
+      type: 'line',
+      source: {
+          type: 'geojson',
+          lineMetrics: true,
+          data: {
+              'type': 'FeatureCollection',
+              'features': [{
+                  'type': 'Feature',
+                  'properties': {},
+                  'geometry': {
+                      'coordinates': coordinates,
+                      'type': 'LineString'
+                  }
+              }]
+          }
+      },
+      paint: {
+          'line-color': color,
+          'line-width': width,
+      },
+      layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+      }
+  });
+}
+
+
 
 
 
