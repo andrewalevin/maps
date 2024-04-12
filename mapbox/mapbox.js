@@ -1,8 +1,5 @@
 
 
-const URL_ROOT =  '';
-
-
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kcmV3bGV2aW4iLCJhIjoiY2t5ZXM5c3cyMWJxYjJvcGJycmw0dGlyeSJ9.9QfCmimkyYicpprraBc-XQ';
 
 
@@ -14,7 +11,7 @@ const map = new mapboxgl.Map({
 });
 
 
-fetch(`${URL_ROOT}data.yaml`)
+fetch(`${config.rootURL}data.yaml`)
   .then((response) => {
     return response.text();
   })
