@@ -20,7 +20,7 @@
 
     <style>
         .mapboxgl-marker {
-            border: 1px solid #eeeeee;
+            border-color: transparent;
         }
         
         .popup-img-container {
@@ -40,6 +40,12 @@
             display: block;
             margin: auto;
         }
+        
+        .marker-interest {
+            border: 1px solid #eeeeee;
+        }
+        
+        .marker-service {}
     </style>
 
 </head>
@@ -72,6 +78,8 @@
     <script src="route-uspenskoe.js"></script>
     <script src="route-zaharovo.js"></script>
 
+    <script src="places.js"></script>
+
 
     <script>
         //  Draw Routes 
@@ -102,7 +110,6 @@
             Ярко-розовый
             #FC0FC0
 
-
             Модная фуксия
             #F400A1
 
@@ -112,6 +119,7 @@
         Мандариновый
             #FF8800
         */
+
 
         map.on('load', () => {
 
@@ -133,6 +141,67 @@
 
             mapAddLayer(map, 'polushkino', polushkino.route.path, 'red');
 
+        });
+
+
+        function radiusServiceMarker(zoom) {
+            let radius = 5 * (zoom - 9);
+            if (zoom < 12)
+                radius = 0;
+
+            radius = radius.toFixed(0);
+
+            console.log('Zoom: ', zoom, 'Radius: ', radius);
+            return radius;
+        }
+
+
+
+
+        function addMarker(map, item) {
+            console.log('MARKER: ', item);
+
+            const elem = document.createElement('div');
+            elem.className = 'marker marker-service';
+
+            const radius = radiusServiceMarker(map.getZoom());
+            elem.style.width = `${radius}px`;
+            elem.style.height = `${radius}px`;
+            elem.style.backgroundImage = `url(\'${item.thumbnail}\')`;
+
+            const coordinates = item.point.reverse();
+            console.log('coordinates: ', coordinates);
+
+            new mapboxgl.Marker(elem)
+                .setLngLat(coordinates)
+                .setPopup(
+                    new mapboxgl.Popup({
+                        offset: 25
+                    })
+                    .setHTML(
+                        `<div class="popup">
+                        <h3>${item.title}</h3>
+                        <p></p>
+                        </div>`
+                    )
+                )
+                .addTo(map);
+
+
+        }
+
+
+        for (const item of places)
+            addMarker(map, item)
+
+
+        map.on('zoom', () => {
+            const radius = radiusServiceMarker(map.getZoom());
+
+            for (const elem of document.getElementsByClassName("marker-service")) {
+                elem.style.width = `${radius}px`;
+                elem.style.height = `${radius}px`;
+            }
         });
     </script>
 </body>

@@ -15,7 +15,17 @@ body {
     background-size: cover;
     width: 30px;
     height: 30px;
+}
+
+.marker-interest {
     border-radius: 50%;
+    cursor: pointer;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.marker-service {
+    border-color: transparent;
+    background-color: transparent;
     cursor: pointer;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }

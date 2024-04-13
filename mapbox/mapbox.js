@@ -42,7 +42,7 @@ function mapProcess(data) {
     }
 
     const elem = document.createElement('div');
-    elem.className = 'marker';
+    elem.className = 'marker marker-interest';
     elem.style.width = `${radius}px`;
     elem.style.height = `${radius}px`;
 
@@ -92,6 +92,17 @@ map.on('zoom', () => {
   }
 });
 
+
+function radiusLine(zoom) {
+  console.log('Zoom: ', zoom);
+  if (zoom > 11)
+    return 6;
+  else if (zoom > 10){
+    return 5;
+  } else {
+    return 1;
+  }
+}
 
 
 function mapAddLayer(_map, _id, coordinates, color = 'red', width = 4) {
