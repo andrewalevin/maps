@@ -176,7 +176,7 @@
                 .setLngLat(coordinates)
                 .setPopup(
                     new mapboxgl.Popup({
-                        offset: 25
+                        offset: 50
                     })
                     .setHTML(
                         `<div class="popup">
@@ -186,21 +186,32 @@
                     )
                 )
                 .addTo(map);
-
+            return elem;
 
         }
 
 
         for (const item of places)
-            addMarker(map, item)
-
+            addMarker(map, item);
 
         map.on('zoom', () => {
-            const radius = radiusServiceMarker(map.getZoom());
+            const zoom = map.getZoom();
+            const radius = radiusServiceMarker(zoom);
 
             for (const elem of document.getElementsByClassName("marker-service")) {
+                if (zoom < 12) {
+                    elem.classList.remove("show");
+                    elem.classList.add("hide");
+                    elem.style.border = 'none';
+                } else {
+                    elem.classList.remove("hide");
+                    elem.classList.add("show");
+                    elem.style.border = '.125rem solid white';
+                }
+
                 elem.style.width = `${radius}px`;
                 elem.style.height = `${radius}px`;
+
             }
         });
     </script>

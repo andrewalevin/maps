@@ -68,7 +68,7 @@ function mapProcess(data) {
       .setLngLat(coordinates)
       .setPopup(
         new mapboxgl.Popup({
-            offset: 25
+            offset: 50
         })
         .setHTML(
           `<div class="popup">
@@ -82,6 +82,10 @@ function mapProcess(data) {
   }
 }
 
+
+function changeSizeByZoom(map, className, zoomFunction, ){
+
+}
 
 map.on('zoom', () => {
   const radius = getRadius(map.getZoom());
