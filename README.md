@@ -3,14 +3,14 @@
 # 🗺️ Maps
 
 
-### 🗺️ My Moscow Map
+## 🗺️ My Moscow Map
 
 - [moscow/](moscow/)
 
 <a href="moscow/"><img src="moscow/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
 
 
-### 🗺️ ☕️ My Cofeshops Moscow Map
+## 🗺️ ☕️ My Cofeshops Moscow Map
 
 - [moscow-cofeshops/](moscow-cofeshops/)
 
@@ -19,11 +19,11 @@
 
 
 
-### 🗺️ Zvenigorod Map
+## 🗺️ Zvenigorod Map
 
-- [zvenigorod/](zvenigorod/)
+- [zvenigorod](zvenigorod)
 
-<a href="zvenigorod/"><img src="moscow-cofeshops/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
+<a href="zvenigorod"><img src="zvenigorod/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
 
 
 ### Dev
