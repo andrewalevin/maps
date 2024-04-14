@@ -18,6 +18,9 @@
     <script src="../mapbox/mapbox-v2-config-default.js"></script>
 
     <script>
+        config.map.center = [37.61, 55.75];
+        config.map.style = 'mapbox://styles/andrewlevin/clthwxvvg002h01qo40y1e99g';
+        config.map.zoom = 11;
     </script>
 
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
