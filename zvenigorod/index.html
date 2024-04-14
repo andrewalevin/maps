@@ -141,6 +141,15 @@
 
             mapAddLayer(map, 'polushkino', polushkino.route.path, 'red');
 
+
+            map.on('click', 'polushkino', function(e) {
+                new mapboxgl.Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML("<h2>This is the third line that will explain something</h2>")
+                    .addTo(map);
+
+            });
+
         });
 
 
