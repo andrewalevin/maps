@@ -140,7 +140,7 @@ function mapAddLayer(_map, _id, coordinates, color = 'red', width = 4) {
 
   _map.on('click', _id, function(e) {
     new mapboxgl.Popup({
-      offset: 15
+      offset: 10
     })
     .setLngLat(e.lngLat)
     .setHTML(`<h3>${Math.trunc(turf.lineDistance(turf.lineString(coordinates)))} km</h3>`)
