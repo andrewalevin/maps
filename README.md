@@ -3,25 +3,25 @@
 # 🗺️ Maps
 
 
-## 🗺️ My Moscow Map
+### 🗺️ Moscow Map
 
-- [moscow/](moscow/)
+[moscow](moscow)
 
-<a href="moscow/"><img src="moscow/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
-
-
-## 🗺️ ☕️ My Cofeshops Moscow Map
-
-- [moscow-cofeshops/](moscow-cofeshops/)
-
-<a href="moscow-cofeshops/"><img src="moscow-cofeshops/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
+<a href="moscow"><img src="moscow/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
 
 
+### 🗺️ ☕️ Moscow's Cofeshops
+
+[moscow-cofeshops](moscow-cofeshops)
+
+<a href="moscow-cofeshops"><img src="moscow-cofeshops/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
 
 
-## 🗺️ Zvenigorod Map
 
-- [zvenigorod](zvenigorod)
+
+### 🗺️ Zvenigorod Map
+
+[zvenigorod](zvenigorod)
 
 <a href="zvenigorod"><img src="zvenigorod/preview.png" alt="drawing" style=""/></a>
 
