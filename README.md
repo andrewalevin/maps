@@ -23,7 +23,7 @@
 
 - [zvenigorod](zvenigorod)
 
-<a href="zvenigorod"><img src="zvenigorod/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
+<a href="zvenigorod"><img src="zvenigorod/preview.png" alt="drawing" style=""/></a>
 
 
 ### Dev
