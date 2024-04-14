@@ -3,8 +3,8 @@
 # 🗺️ Maps
 
 - [Moscow Map](#moscow-map)
-- [☕️ Moscow's Cofeshops](#%EF%B8%8F-moscows-cofeshops)
-- [Zvenigorod Map](#zvenigorod-map)
+- [☕️ Moscow's Cofeshops](#-moscows-cofeshops)
+- [Zvenigorod Map](#-zvenigorod-map)
 
 
 ### Moscow Map
