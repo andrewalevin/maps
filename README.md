@@ -1,4 +1,6 @@
- [🚀 Home Page](https://andrewalevin.github.io/maps/) &ensp;  [🏰 Repository](https://github.com/andrewalevin/andrewalevin.github.io/maps/) &ensp;  [🔨 Edit Page](https://github.com/andrewalevin/maps/edit/main/README.md))
+<link rel="shortcut icon" type="image/png" href="world-map-emoji.png">
+ 
+[🚀 Home Page](https://andrewalevin.github.io/maps/) &ensp;  [🏰 Repository](https://github.com/andrewalevin/andrewalevin.github.io/maps/) &ensp;  [🔨 Edit Page](https://github.com/andrewalevin/maps/edit/main/README.md))
 
 # 🗺️ Maps
 
