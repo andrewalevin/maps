@@ -64,6 +64,7 @@
 
     <script src="../mapbox/js-yaml.min.js"></script>
 
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <script src="../mapbox/mapbox.js"></script>
 
 
@@ -120,7 +121,6 @@
             #FF8800
         */
 
-
         map.on('load', () => {
 
             mapAddLayer(map, 'kubinka', kubinka.route.path, '#EDFF21');
@@ -141,15 +141,6 @@
 
             mapAddLayer(map, 'polushkino', polushkino.route.path, 'red');
 
-
-            map.on('click', 'polushkino', function(e) {
-                new mapboxgl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML("<h2>This is the third line that will explain something</h2>")
-                    .addTo(map);
-
-            });
-
         });
 
 
@@ -163,8 +154,6 @@
             console.log('Zoom: ', zoom, 'Radius: ', radius);
             return radius;
         }
-
-
 
 
         function addMarker(map, item) {

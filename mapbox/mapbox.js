@@ -137,6 +137,15 @@ function mapAddLayer(_map, _id, coordinates, color = 'red', width = 4) {
           'line-join': 'round'
       }
   });
+
+  _map.on('click', _id, function(e) {
+    new mapboxgl.Popup({
+      offset: 50
+    })
+    .setLngLat(e.lngLat)
+    .setHTML(`<h3>${Math.trunc(turf.lineDistance(turf.lineString(coordinates)))} km</h3>`)
+    .addTo(map);
+});
 }
 
 
