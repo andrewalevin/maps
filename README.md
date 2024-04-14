@@ -2,12 +2,12 @@
 
 # 🗺️ Maps
 
-- [🗺️ Moscow Map](#%EF%B8%8F-moscow-map)
-- [☕️ Moscow's Cofeshops](#%EF%B8%8F-%EF%B8%8F-moscows-cofeshops)
-- [🗺️ Zvenigorod Map](#%EF%B8%8F-zvenigorod-map)
+- [Moscow Map](#moscow-map)
+- [☕️ Moscow's Cofeshops](#%EF%B8%8F-moscows-cofeshops)
+- [Zvenigorod Map](#zvenigorod-map)
 
 
-### 🗺️ Moscow Map
+### Moscow Map
 
 [moscow](moscow)
 
@@ -15,7 +15,7 @@
 
 
 
-### 🗺️ ☕️ Moscow's Cofeshops
+### ☕️ Moscow's Cofeshops
 
 [moscow-cofeshops](moscow-cofeshops)
 
@@ -23,7 +23,7 @@
 
 
 
-### [🗺️ Zvenigorod Map](zvenigorod)
+### [Zvenigorod Map](zvenigorod)
 
 [zvenigorod](zvenigorod)
 
