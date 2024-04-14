@@ -4,6 +4,9 @@
 ## V2
 
 ```html
+
+    ...
+
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
 
@@ -27,6 +30,8 @@
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <script src="../mapbox/js-yaml.min.js"></script>
     <script src="../mapbox/mapbox-v2.js"></script>
+
+    ...
 
 
 ```
