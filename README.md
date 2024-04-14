@@ -11,7 +11,7 @@
 
 [moscow](moscow)
 
-<a href="moscow"><img src="moscow/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
+<a href="moscow"><img src="moscow/preview.jpg" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
 
 
 
@@ -19,7 +19,7 @@
 
 [moscow-cofeshops](moscow-cofeshops)
 
-<a href="moscow-cofeshops"><img src="moscow-cofeshops/preview.png" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
+<a href="moscow-cofeshops"><img src="moscow/preview.jpg" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
 
 
 
@@ -27,7 +27,7 @@
 
 [zvenigorod](zvenigorod)
 
-<a href="zvenigorod"><img src="zvenigorod/preview.png" alt="drawing" style=""/></a>
+<a href="zvenigorod"><img src="zvenigorod/preview.jpg" alt="drawing" style="width: 100%; max-width: 400px; "/></a>
 
 
 
