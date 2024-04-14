@@ -7,6 +7,7 @@
 - [Moscow map](#moscow-map)
 - [☕️ Moscow's Cofeshops map](#%EF%B8%8F-moscows-cofeshops)
 - [🚲 Zvenigorod map](#-zvenigorod-map)
+- [🧑‍💻 Dev maps](dev)
 
 
 ### Moscow map
@@ -33,7 +34,7 @@
 
 
 
-### Dev
+### 🧑‍💻 Dev maps
 
 
 - [dev/zvenigorod-v3](dev/zvenigorod-v3)
